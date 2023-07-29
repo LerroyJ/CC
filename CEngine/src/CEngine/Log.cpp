@@ -1,3 +1,4 @@
+#include "ccpch.h"
 #include "Log.h"
 namespace CEngine {
 	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;

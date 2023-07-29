@@ -10,13 +10,27 @@ workspace "CEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- Include directories relative to root folder (solution diretory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "CEngine/vendor/GLFW/include"
+IncludeDir["Glad"] = "CEngine/vendor/Glad/include"
+IncludeDir["ImGui"] = "CEngine/vendor/imgui"
+
+include "CEngine/vendor/GLFW"
+include "Cengine/vendor/Glad"
+include "Cengine/vendor/imgui"
+
 project "CEngine"
 	location "CEngine"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	pchheader "ccpch.h"
+	pchsource "CEngine/src/ccpch.cpp"
 
 	files
 	{
@@ -26,18 +40,30 @@ project "CEngine"
 
 	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
+	}
+
+	links
+	{
+		"GLFW",
+		"Glad",
+		"opengl32.lib",
+		"ImGui"
 	}
 
 	filter "system:windows"
 		cppdialect "C++latest"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
 		{
 			"CC_PLATFORM_WINDOWS",
-			"CC_BUILD_DLL"
+			"CC_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands
@@ -47,20 +73,24 @@ project "CEngine"
 
 	filter "configurations:Debug"
 		defines "CC_DEBUG"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "CC_RELEASE"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "CC_DIST"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -84,7 +114,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++latest"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -94,12 +123,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "CC_DEBUG"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "CC_RELEASE"
+		runtime "Release"
 		symbols "On"
 
 	filter "configurations:Dist"
 		defines "CC_DIST"
+		runtime "Release"
 		symbols "On"
