@@ -7,3 +7,6 @@
 [submodule "CEngine/vendor/imgui"]
 	path = CEngine/vendor/imgui
 	url = https://github.com/TheCherno/imgui
+[submodule "CEngine/vendor/glm"]
+	path = CEngine/vendor/glm
+	url = https://github.com/g-truc/glm

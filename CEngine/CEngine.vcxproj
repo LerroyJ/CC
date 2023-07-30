@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>ccpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CC_PLATFORM_WINDOWS;CC_BUILD_DLL;GLFW_INCLUDE_NONE;CC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -94,7 +94,7 @@
       <ImportLibrary>..\bin\Debug-windows-x86_64\CEngine\CEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\CEngine\CEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\CEngine\CEngine.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\CEngine\CEngine.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Debug-windows-x86_64\CEngine\CEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\CEngine\CEngine.dll "..\bin\Debug-windows-x86_64\Sandbox\" &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\CEngine\CEngine.dll "..\bin\Debug-windows-x86_64\Sandbox\" &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -103,7 +103,7 @@
       <PrecompiledHeaderFile>ccpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CC_PLATFORM_WINDOWS;CC_BUILD_DLL;GLFW_INCLUDE_NONE;CC_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -121,7 +121,7 @@
       <ImportLibrary>..\bin\Release-windows-x86_64\CEngine\CEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\CEngine\CEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\CEngine\CEngine.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\CEngine\CEngine.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Release-windows-x86_64\CEngine\CEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\CEngine\CEngine.dll "..\bin\Release-windows-x86_64\Sandbox\" &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\CEngine\CEngine.dll "..\bin\Release-windows-x86_64\Sandbox\" &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -130,7 +130,7 @@
       <PrecompiledHeaderFile>ccpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>CC_PLATFORM_WINDOWS;CC_BUILD_DLL;GLFW_INCLUDE_NONE;CC_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -148,7 +148,7 @@
       <ImportLibrary>..\bin\Dist-windows-x86_64\CEngine\CEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\CEngine\CEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\CEngine\CEngine.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\CEngine\CEngine.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Dist-windows-x86_64\CEngine\CEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\CEngine\CEngine.dll "..\bin\Dist-windows-x86_64\Sandbox\" &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\CEngine\CEngine.dll "..\bin\Dist-windows-x86_64\Sandbox\" &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -161,11 +161,15 @@
     <ClInclude Include="src\CEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\CEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\CEngine\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\CEngine\Input.h" />
     <ClInclude Include="src\CEngine\Layer.h" />
     <ClInclude Include="src\CEngine\LayerStack.h" />
     <ClInclude Include="src\CEngine\Log.h" />
+    <ClInclude Include="src\CEngine\MouseButtonCodes.h" />
     <ClInclude Include="src\CEngine\Window.h" />
+    <ClInclude Include="src\CEngine\keyCodes.h" />
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\ccpch.h" />
   </ItemGroup>
@@ -176,6 +180,7 @@
     <ClCompile Include="src\CEngine\LayerStack.cpp" />
     <ClCompile Include="src\CEngine\Log.cpp" />
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\ccpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

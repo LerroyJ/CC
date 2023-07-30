@@ -2,8 +2,6 @@
 #include "CEngine/Core.h"
 #include "Layer.h"
 
-#include <vector>
-
 namespace CEngine{
 	class CC_API LayerStack
 	{

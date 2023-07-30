@@ -8,7 +8,7 @@ namespace CEngine {
 		inline float GetX() const { return m_MouseX; }
 		inline float GetY() const { return m_MouseY; }
 
-		std::string ToString() const override
+		virtual std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseMovedEvent: " << GetX() << "," << GetY();
@@ -28,7 +28,7 @@ namespace CEngine {
 		inline float GetXOffset() const { return m_XOffset; }
 		inline float GetYOffset() const { return m_YOffset; }
 
-		std::string ToString() const override
+		virtual std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseScrooledEvent: " << GetXOffset() << "," << GetYOffset();
@@ -57,7 +57,7 @@ namespace CEngine {
 	public:
 		MouseButtonPressedEvent(int button)
 			: MouseButtonEvent(button) {}
-		std::string ToString() const override
+		virtual std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseButtonPressedEvent: " << m_Button;
@@ -70,7 +70,7 @@ namespace CEngine {
 	public:
 		MouseButtonReleasedEvent(int button)
 			: MouseButtonEvent(button) {}
-		std::string ToString() const override
+		virtual std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseButtonReleasedEvent: " << m_Button;

@@ -133,6 +133,11 @@ namespace CEngine {
 		glfwDestroyWindow(m_Window);
 	}
 
+	void* WindowsWindow::GetNatureWindow() const
+	{
+		return m_Window;
+	}
+
 	void WindowsWindow::OnUpdate() {
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);

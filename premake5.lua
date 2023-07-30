@@ -1,5 +1,6 @@
 workspace "CEngine"
 	architecture "x64"
+	startproject "Sandbox"
 	
 	configurations
 	{
@@ -15,6 +16,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "CEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "CEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "CEngine/vendor/imgui"
+IncludeDir["glm"] = "CEngine/vendor/glm"
 
 include "CEngine/vendor/GLFW"
 include "Cengine/vendor/Glad"
@@ -44,7 +46,8 @@ project "CEngine"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -68,7 +71,7 @@ project "CEngine"
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
 	filter "configurations:Debug"
@@ -104,7 +107,8 @@ project "Sandbox"
 	includedirs
 	{
 		"CEngine/vendor/spdlog/include",
-		"CEngine/src"
+		"CEngine/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links
