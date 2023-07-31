@@ -133,7 +133,7 @@ namespace CEngine {
 		glfwDestroyWindow(m_Window);
 	}
 
-	void* WindowsWindow::GetNatureWindow() const
+	void* WindowsWindow::GetNativeWindow() const
 	{
 		return m_Window;
 	}

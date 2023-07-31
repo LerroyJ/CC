@@ -6,6 +6,8 @@
 #include "CEngine/Events/ApplicationEvent.h"
 #include "CEngine/Events/KeyEvent.h"
 #include "CEngine/Events/MouseEvent.h"
+
+#include "CEngine/ImGui/ImGuiLayer.h"
 namespace CEngine {
 	class CC_API Application
 	{
@@ -28,6 +30,7 @@ namespace CEngine {
 		bool OnMouseMoe(MouseMovedEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:

@@ -1,7 +1,7 @@
 workspace "CEngine"
 	architecture "x64"
 	startproject "Sandbox"
-	
+
 	configurations
 	{
 		"Debug",
@@ -11,7 +11,7 @@ workspace "CEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
--- Include directories relative to root folder (solution diretory)
+-- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "CEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "CEngine/vendor/Glad/include"
@@ -19,14 +19,15 @@ IncludeDir["ImGui"] = "CEngine/vendor/imgui"
 IncludeDir["glm"] = "CEngine/vendor/glm"
 
 include "CEngine/vendor/GLFW"
-include "Cengine/vendor/Glad"
-include "Cengine/vendor/imgui"
+include "CEngine/vendor/Glad"
+include "CEngine/vendor/imgui"
 
 project "CEngine"
 	location "CEngine"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++latest"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -37,7 +38,14 @@ project "CEngine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs
@@ -50,16 +58,15 @@ project "CEngine"
 		"%{IncludeDir.glm}"
 	}
 
-	links
-	{
+	links 
+	{ 
 		"GLFW",
 		"Glad",
-		"opengl32.lib",
-		"ImGui"
+		"ImGui",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
-		cppdialect "C++latest"
 		systemversion "latest"
 
 		defines
@@ -69,31 +76,27 @@ project "CEngine"
 			"GLFW_INCLUDE_NONE"
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-		}
-
 	filter "configurations:Debug"
 		defines "CC_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "CC_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "CC_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++latest"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -108,6 +111,7 @@ project "Sandbox"
 	{
 		"CEngine/vendor/spdlog/include",
 		"CEngine/src",
+		"CEngine/vendor",
 		"%{IncludeDir.glm}"
 	}
 
@@ -117,7 +121,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++latest"
 		systemversion "latest"
 
 		defines
@@ -128,14 +131,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "CC_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "CC_RELEASE"
 		runtime "Release"
-		symbols "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "CC_DIST"
 		runtime "Release"
-		symbols "On"
+		optimize "on"

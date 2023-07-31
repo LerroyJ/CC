@@ -1,5 +1,5 @@
 #include <CEngine.h>
-
+#include "imgui/imgui.h"
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
@@ -34,6 +34,15 @@ public:
 		}
 	}
 
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::BeginChild("ccc");
+		ImGui::EndChild();
+		ImGui::End();
+	}
+
 	virtual void OnEvent(CEngine::Event& event) override {
 		if (CEngine::EventType::KeyPressed == event.GetEventType()) {
 			CC_TRACE((char)((CEngine::KeyPressedEvent&)event).GetKeyCode());
@@ -45,7 +54,6 @@ class Sandbox : public CEngine::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
-		PushOverlay(new CEngine::ImGuiLayer());
 	}
 	~Sandbox() {}
 };

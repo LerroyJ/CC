@@ -20,7 +20,7 @@ namespace CEngine {
 		inline virtual void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		virtual void SetVSync(bool enabled) override;
 		virtual bool IsVSync() const override;
-		inline virtual void* GetNatureWindow() const override;
+		inline virtual void* GetNativeWindow() const override;
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();

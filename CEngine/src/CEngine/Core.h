@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef CC_PLATFORM_WINDOWS
+#if CC_DYNAMIC_LINK
 	#ifdef CC_BUILD_DLL
 		#define CC_API __declspec(dllexport)
 	#else
 		#define CC_API __declspec(dllimport)
 	#endif // CC_BUILD_DLL
+#else
+	#define CC_API
+#endif
 #else
 	#error CC only support windows
 #endif
