@@ -36,10 +36,8 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::Begin("Test");
+		ImGui::Begin("Renderer");
 		ImGui::Text("Hello World");
-		ImGui::BeginChild("ccc");
-		ImGui::EndChild();
 		ImGui::End();
 	}
 

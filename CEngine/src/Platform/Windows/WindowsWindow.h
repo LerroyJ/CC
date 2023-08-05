@@ -1,8 +1,10 @@
 #pragma once
 
 #include "CEngine/Window.h"
+#include "CEngine/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
+
 
 namespace CEngine {
 	class WindowsWindow : public Window
@@ -13,8 +15,8 @@ namespace CEngine {
 
 		virtual void OnUpdate() override;
 
-		inline unsigned int GetWidth() const override { return m_Data.Width; }
-		inline unsigned int GetHeight() const override { return m_Data.Height; }
+		inline virtual unsigned int GetWidth() const override { return m_Data.Width; }
+		inline virtual unsigned int GetHeight() const override { return m_Data.Height; }
 
 		// Window attributes
 		inline virtual void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
@@ -26,6 +28,7 @@ namespace CEngine {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 			std::string Title;

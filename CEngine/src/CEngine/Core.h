@@ -14,6 +14,7 @@
 	#error CC only support windows
 #endif
 
+
 #ifdef CC_ENABLE_ASSERTS
 	#define CC_ASSERT(x, ...) {if(!(x)){CC_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}
 	#define CC_CORE_ASSERT(x, ...) {if(!(x)) {CC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}
