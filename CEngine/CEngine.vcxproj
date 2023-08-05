@@ -143,6 +143,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\CEngine.h" />
     <ClInclude Include="src\CEngine\Application.h" />
     <ClInclude Include="src\CEngine\Core.h" />
@@ -157,9 +158,13 @@
     <ClInclude Include="src\CEngine\LayerStack.h" />
     <ClInclude Include="src\CEngine\Log.h" />
     <ClInclude Include="src\CEngine\MouseButtonCodes.h" />
+    <ClInclude Include="src\CEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\CEngine\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\CEngine\Renderer\Renderer.h" />
+    <ClInclude Include="src\CEngine\Renderer\Shader.h" />
     <ClInclude Include="src\CEngine\Window.h" />
     <ClInclude Include="src\CEngine\keyCodes.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
@@ -582,12 +587,17 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\CEngine\Application.cpp" />
     <ClCompile Include="src\CEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\CEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\CEngine\Layer.cpp" />
     <ClCompile Include="src\CEngine\LayerStack.cpp" />
     <ClCompile Include="src\CEngine\Log.cpp" />
+    <ClCompile Include="src\CEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\CEngine\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\CEngine\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
@@ -605,6 +615,13 @@
     <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\test.frag" />
+    <None Include="shader\test.gs" />
+    <None Include="shader\test.vs" />
+    <None Include="src\CEngine\test.frag" />
+    <None Include="src\CEngine\test.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

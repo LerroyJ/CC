@@ -1359,6 +1359,19 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Shader.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Renderer.h" />
+    <ClInclude Include="src\CEngine\Renderer\Buffer.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CEngine\Application.cpp">
@@ -1391,5 +1404,25 @@
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\Shader.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\CEngine\Renderer\Buffer.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\CEngine\test.vs" />
+    <None Include="src\CEngine\test.frag" />
+    <None Include="shader\test.gs" />
+    <None Include="shader\test.frag" />
+    <None Include="shader\test.vs" />
   </ItemGroup>
 </Project>

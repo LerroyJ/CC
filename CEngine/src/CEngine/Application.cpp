@@ -5,7 +5,6 @@
 #include "glad/glad.h"
 #include "imgui.h"
 #include "glm/glm.hpp"
-
 namespace CEngine {
     void renderSphere();
     void renderQuad();
@@ -20,7 +19,31 @@ namespace CEngine {
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-	}
+        m_Shader.reset(Shader::Create("D:/Users/DELL/source/repos/CEngine/CEngine/shader/test.vs", "D:/Users/DELL/source/repos/CEngine/CEngine/shader/test.frag"));
+        float quadVertices[] = {
+            // positions        // texture Coords
+            -0.5f,  0.5,  0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+             0.5,   0.5,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+             0.5,  -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+        };
+        uint32_t quadIndices[] = {
+                0,1,3,
+                0,3,2
+        };
+        m_VertexBuffer.reset(VertexBuffer::Create(quadVertices, sizeof(quadVertices)));
+        m_IndexBuffer.reset(IndexBuffer::Create(quadIndices, 6));
+        glGenVertexArrays(1, &m_VertexArray);
+        glBindVertexArray(m_VertexArray);
+        m_VertexBuffer->Bind();
+        m_IndexBuffer->Bind();
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    }
 	Application::~Application()
 	{
 	}
@@ -40,10 +63,14 @@ namespace CEngine {
 	}
 
 	void Application::run() {
-		while (m_Running) {
+        
+        while (m_Running) {
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
-            renderQuad();
+            m_Shader->Bind();
+            glBindVertexArray(m_VertexArray);
+            glDrawElements(GL_TRIANGLE_STRIP, 6, GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
@@ -85,7 +112,6 @@ namespace CEngine {
     // renders a 1x1 quad in NDC with manually calculated tangent vectors
 // ------------------------------------------------------------------
     unsigned int quadVAO = 0;
-    unsigned int quadVBO;
     void renderQuad()
     {
         if (quadVAO == 0)
@@ -97,12 +123,18 @@ namespace CEngine {
                  0.5,   0.5,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
                  0.5,  -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
             };
+            uint32_t quadIndices[] = {
+                0,1,3,
+                0,3,2
+            };
+            // vertexbuffer create
+            VertexBuffer* quadVBO = VertexBuffer::Create(quadVertices, sizeof(quadVertices));
+            IndexBuffer* quadEBO = IndexBuffer::Create(quadIndices, 6);
             // setup plane VAO
             glGenVertexArrays(1, &quadVAO);
-            glGenBuffers(1, &quadVBO);
             glBindVertexArray(quadVAO);
-            glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+            quadVBO->Bind();
+            quadEBO->Bind();
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
             glEnableVertexAttribArray(1);
@@ -111,7 +143,7 @@ namespace CEngine {
             glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
         }
         glBindVertexArray(quadVAO);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glDrawElements(GL_TRIANGLE_STRIP, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
     unsigned int sphereVAO = 0;
