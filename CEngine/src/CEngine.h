@@ -6,6 +6,11 @@
 #include "CEngine/Input.h"
 #include "CEngine/Log.h"
 
+#include "CEngine/Renderer/Renderer.h"
+#include "CEngine/Renderer/Shader.h"
+#include "CEngine/Renderer/Buffer.h"
+#include "CEngine/Renderer/VertexArray.h"
+
 #include "CEngine/ImGui/ImGuiLayer.h"
 // Entry Point
 #include "CEngine/EntryPoint.h"

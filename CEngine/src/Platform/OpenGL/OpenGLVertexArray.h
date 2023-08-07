@@ -5,7 +5,7 @@ namespace CEngine {
 	public:	
 		OpenGLVertexArray();
 
-		virtual ~OpenGLVertexArray() {}
+		virtual ~OpenGLVertexArray();
 
 		virtual void Bind() const override;
 

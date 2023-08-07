@@ -7,10 +7,10 @@ namespace CEngine {
 	VertexArray* VertexArray::Create() {
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None:
+		case RendererAPI::API::None:
 			CC_CORE_ASSERT(false, "RendererAPI::None is currently not support");
 			return nullptr;
-		case RendererAPI::OpenGL:
+		case RendererAPI::API::OpenGL:
 			return new OpenGLVertexArray();
 		}
 		CC_CORE_ASSERT(false, "Unknown RendererAPI!");

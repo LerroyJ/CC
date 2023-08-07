@@ -8,14 +8,10 @@ out vec2 TexCoords;
 out vec3 FragPos;
 out vec3 Color;
 
-uniform mat4 projection;
-uniform mat4 view;
-uniform mat4 model;
-
 void main()
 {
     TexCoords = aTexCoords;
     FragPos = aPos;
     Color = aColor;
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
+    gl_Position = vec4(aPos, 1.0);
 }
