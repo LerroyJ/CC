@@ -143,10 +143,16 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\CEngine\Core\Timestep.h" />
+    <ClInclude Include="src\CEngine\Renderer\Camera.h" />
+    <ClInclude Include="src\CEngine\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\CEngine\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\CEngine\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderAPI.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\CEngine.h" />
     <ClInclude Include="src\CEngine\Application.h" />
     <ClInclude Include="src\CEngine\Core.h" />
-    <ClInclude Include="src\CEngine\Core\Timestep.h" />
     <ClInclude Include="src\CEngine\EntryPoint.h" />
     <ClInclude Include="src\CEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\CEngine\Events\Event.h" />
@@ -159,19 +165,13 @@
     <ClInclude Include="src\CEngine\Log.h" />
     <ClInclude Include="src\CEngine\MouseButtonCodes.h" />
     <ClInclude Include="src\CEngine\Renderer\Buffer.h" />
-    <ClInclude Include="src\CEngine\Renderer\Camera.h" />
     <ClInclude Include="src\CEngine\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\CEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\CEngine\Renderer\Renderer.h" />
-    <ClInclude Include="src\CEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\CEngine\Renderer\Shader.h" />
-    <ClInclude Include="src\CEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\CEngine\Window.h" />
     <ClInclude Include="src\CEngine\keyCodes.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderAPI.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
@@ -594,6 +594,12 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CEngine\Renderer\Camera.cpp" />
+    <ClCompile Include="src\CEngine\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\CEngine\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\CEngine\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\CEngine\Application.cpp" />
     <ClCompile Include="src\CEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\CEngine\ImGui\ImGuiLayer.cpp" />
@@ -601,16 +607,10 @@
     <ClCompile Include="src\CEngine\LayerStack.cpp" />
     <ClCompile Include="src\CEngine\Log.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\CEngine\Renderer\Camera.cpp" />
-    <ClCompile Include="src\CEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\CEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Shader.cpp" />
-    <ClCompile Include="src\CEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderAPI.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
