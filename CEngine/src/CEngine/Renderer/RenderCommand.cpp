@@ -3,5 +3,5 @@
 #include "Platform/OpenGL/OpenGLRenderAPI.h"
 
 namespace CEngine {
-	RendererAPI* RenderCommand::s_RendererAPI = new OpenGLRenderAPI;
+	Ref<RendererAPI> RenderCommand::s_RendererAPI = std::make_shared<OpenGLRenderAPI>();
 }

@@ -7,6 +7,9 @@
     <Filter Include="src\CEngine">
       <UniqueIdentifier>{15476CDB-81FC-E4D0-0AF1-DEA776A5DBD4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\CEngine\Core">
+      <UniqueIdentifier>{8D20A6B1-7919-C503-A24B-AA888EA3A40F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\CEngine\Events">
       <UniqueIdentifier>{5989D2B8-456D-930E-AECD-8D619AD07D90}</UniqueIdentifier>
     </Filter>
@@ -46,6 +49,9 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CEngine.h">
@@ -56,6 +62,9 @@
     </ClInclude>
     <ClInclude Include="src\CEngine\Core.h">
       <Filter>src\CEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Core\Timestep.h">
+      <Filter>src\CEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\CEngine\EntryPoint.h">
       <Filter>src\CEngine</Filter>
@@ -90,7 +99,31 @@
     <ClInclude Include="src\CEngine\MouseButtonCodes.h">
       <Filter>src\CEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Buffer.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Camera.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\GraphicsContext.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\RenderCommand.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Renderer.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\RendererAPI.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Shader.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Texture.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\VertexArray.h">
       <Filter>src\CEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\CEngine\Window.h">
@@ -99,7 +132,22 @@
     <ClInclude Include="src\CEngine\keyCodes.h">
       <Filter>src\CEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture2D.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
@@ -1359,38 +1407,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\Shader.h">
-      <Filter>src\CEngine\Renderer</Filter>
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\Buffer.h">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderAPI.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\RenderCommand.h">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\Renderer.h">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\RendererAPI.h">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\VertexArray.h">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\Camera.h" />
-    <ClInclude Include="src\CEngine\Core\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CEngine\Application.cpp">
@@ -1411,7 +1430,46 @@
     <ClCompile Include="src\CEngine\Log.cpp">
       <Filter>src\CEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\Buffer.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\Camera.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\RenderCommand.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\Renderer.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\RendererAPI.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\Shader.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\Texture.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\VertexArray.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture2D.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -1423,36 +1481,8 @@
     <ClCompile Include="src\ccpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\Shader.cpp">
-      <Filter>src\CEngine\Renderer</Filter>
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\Buffer.cpp">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderAPI.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
-      <Filter>src\Platform\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\RenderCommand.cpp">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\Renderer.cpp">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\RendererAPI.cpp">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\VertexArray.cpp">
-      <Filter>src\CEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\Camera.cpp" />
   </ItemGroup>
 </Project>

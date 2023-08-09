@@ -1,7 +1,12 @@
 #include "ccpch.h"
 #include "Renderer.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 namespace CEngine {
-	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
+	Ref<Renderer::SceneData> Renderer::m_SceneData = std::make_shared<Renderer::SceneData>();
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
 	void Renderer::BeginScene(OrthograhpicCamera& camera)
 	{
 		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
@@ -9,11 +14,11 @@ namespace CEngine {
 	void Renderer::EndScene()
 	{
 	}
-	void Renderer::Submit(const std::shared_ptr<Shader> shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& model)
+	void Renderer::Submit(const Ref<Shader> shader, const Ref<VertexArray>& vertexArray, const glm::mat4& model)
 	{
 		shader->Bind();
-		shader->setMat4("VP", m_SceneData->ViewProjectionMatrix);
-		shader->setMat4("model", model);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->setMat4("VP", m_SceneData->ViewProjectionMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->setMat4("model", model);
 		vertexArray->Bind();
 		if (vertexArray->GetIndexBuffer() != nullptr) {
 			RenderCommand::DrawIndexed(vertexArray);

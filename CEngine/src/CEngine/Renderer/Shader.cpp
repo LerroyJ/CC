@@ -4,10 +4,7 @@
 #include "Platform/OpenGL/OpenGLShader.h"
 namespace CEngine
 {
-	Shader::~Shader()
-	{
-	}
-	Shader* Shader::Create(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
+	Ref<Shader> Shader::Create(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -15,7 +12,7 @@ namespace CEngine
 			CC_CORE_ASSERT(false, "RendererAPI::None is currently not support");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLShader(vertexPath, fragmentPath, geometryPath);
+			return std::make_shared<OpenGLShader>(vertexPath, fragmentPath, geometryPath);
 		}
 		CC_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;

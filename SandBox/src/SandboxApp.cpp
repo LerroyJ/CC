@@ -1,16 +1,19 @@
 #include <CEngine.h>
 #include "imgui/imgui.h"
+
+#include "Platform/OpenGL/OpenGLShader.h"
 class ExampleLayer : public CEngine::Layer {
 public:
 	ExampleLayer()
 		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(m_Camera.GetPosition())
 	{
 		// example quad
-		m_Shader.reset(CEngine::Shader::Create("D:/Users/DELL/source/repos/CEngine/CEngine/shader/test.vs", "D:/Users/DELL/source/repos/CEngine/CEngine/shader/test.frag"));
-
+		m_Shader = CEngine::Shader::Create("assets/shaders/test.vs", "assets/shaders/test.frag");
+		m_Texture = CEngine::Texture2D::Create("assets/textures/floor.jpg");
+		m_ChernoLogo = CEngine::Texture2D::Create("assets/textures/ChernoLogo.png");
 		{
 			float quadVertices[] = {
-				// positions        // normal               //coords    //color
+				// positions        // normal         //coords    //color
 				-0.5f,  0.5,  0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.2f, 0.1f, 0.7f,
 				-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.7f, 0.1f, 0.0f,
 				 0.5,   0.5,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.6f, 0.0f,
@@ -20,10 +23,10 @@ public:
 					0,1,3,
 					0,3,2
 			};
-			std::shared_ptr<CEngine::VertexBuffer> m_VertexBuffer;
-			m_VertexBuffer.reset(CEngine::VertexBuffer::Create(quadVertices, sizeof(quadVertices)));
-			std::shared_ptr<CEngine::IndexBuffer> m_IndexBuffer;
-			m_IndexBuffer.reset(CEngine::IndexBuffer::Create(quadIndices, sizeof(quadIndices) / sizeof(uint32_t)));
+			CEngine::Ref<CEngine::VertexBuffer> m_VertexBuffer;
+			m_VertexBuffer = CEngine::VertexBuffer::Create(quadVertices, sizeof(quadVertices));
+			CEngine::Ref<CEngine::IndexBuffer> m_IndexBuffer;
+			m_IndexBuffer = CEngine::IndexBuffer::Create(quadIndices, sizeof(quadIndices) / sizeof(uint32_t));
 
 			CEngine::BufferLayout layout = {
 				{"Position", CEngine::ShaderDataType::Float3},
@@ -32,7 +35,7 @@ public:
 				{"Color", CEngine::ShaderDataType::Float3}
 			};
 			m_VertexBuffer->SetLayout(layout);
-			m_QuadVertexArray.reset(CEngine::VertexArray::Create());
+			m_QuadVertexArray = CEngine::VertexArray::Create();
 			m_QuadVertexArray->AddVertexBuffer(m_VertexBuffer);
 			m_QuadVertexArray->SetIndexBuffer(m_IndexBuffer);
 			m_QuadVertexArray->Unbind();
@@ -40,7 +43,7 @@ public:
 		}
 		{
 			float triangleVertices[] = {
-				// positions        // normal               //coords    //color
+				// positions        // normal           //coords    //color
 				 0.0f,   0.75f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.2f, 0.1f, 0.7f,
 				-0.75f, -0.75f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.7f, 0.1f, 0.0f,
 				 0.75f, -0.75f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.3f, 0.0f, 0.5f
@@ -48,10 +51,10 @@ public:
 			uint32_t triangleIndices[] = {
 					0,1,2
 			};
-			std::shared_ptr<CEngine::VertexBuffer> m_VertexBuffer;
-			m_VertexBuffer.reset(CEngine::VertexBuffer::Create(triangleVertices, sizeof(triangleVertices)));
-			std::shared_ptr<CEngine::IndexBuffer> m_IndexBuffer;
-			m_IndexBuffer.reset(CEngine::IndexBuffer::Create(triangleIndices, sizeof(triangleIndices) / sizeof(uint32_t)));
+			CEngine::Ref<CEngine::VertexBuffer> m_VertexBuffer;
+			m_VertexBuffer = CEngine::VertexBuffer::Create(triangleVertices, sizeof(triangleVertices));
+			CEngine::Ref<CEngine::IndexBuffer> m_IndexBuffer;
+			m_IndexBuffer = CEngine::IndexBuffer::Create(triangleIndices, sizeof(triangleIndices) / sizeof(uint32_t));
 			CEngine::BufferLayout layout = {
 				{"Position", CEngine::ShaderDataType::Float3},
 				{"Normal",CEngine::ShaderDataType::Float3},
@@ -59,7 +62,7 @@ public:
 				{"Color", CEngine::ShaderDataType::Float3}
 			};
 			m_VertexBuffer->SetLayout(layout);
-			m_TriangleVertexArray.reset(CEngine::VertexArray::Create());
+			m_TriangleVertexArray = CEngine::VertexArray::Create();
 			m_TriangleVertexArray->AddVertexBuffer(m_VertexBuffer);
 			m_TriangleVertexArray->SetIndexBuffer(m_IndexBuffer);
 			m_TriangleVertexArray->Unbind();
@@ -89,18 +92,28 @@ public:
 		}
 		CEngine::RenderCommand::SetClearColor(glm::vec4(0.1, 0.2, 0.3, 1.0));
 		CEngine::RenderCommand::Clear();
-
+		std::dynamic_pointer_cast<CEngine::OpenGLShader>(m_Shader)->Bind();
+		std::dynamic_pointer_cast<CEngine::OpenGLShader>(m_Shader)->setVec3("u_Color", m_Color);
+		std::dynamic_pointer_cast<CEngine::OpenGLShader>(m_Shader)->setFloat("u_Intense", m_Intense);
+		
 		m_Camera.SetRotation(m_CameraRotation);
 		m_Camera.SetPosition(m_CameraPosition);
 		CEngine::Renderer::BeginScene(m_Camera);
-		CEngine::Renderer::Submit(m_Shader, m_QuadVertexArray, m_QuadModel);
-		CEngine::Renderer::Submit(m_Shader, m_TriangleVertexArray);
+		m_Texture->Bind();
+		CEngine::Renderer::Submit(m_Shader, m_QuadVertexArray);
+
+		m_ChernoLogo->Bind();
+		CEngine::Renderer::Submit(m_Shader, m_QuadVertexArray);
 		CEngine::Renderer::EndScene();
 
 	}
 
 	virtual void OnImGuiRender() override
 	{
+		ImGui::Begin("Color Settings");
+		ImGui::ColorEdit3("Squard Color", glm::value_ptr(m_Color));
+		ImGui::SliderFloat("Intense", &m_Intense, 0.0f, 1.0f);
+		ImGui::End();
 	}
 
 	virtual void OnEvent(CEngine::Event& event) override {
@@ -112,18 +125,27 @@ public:
 		return false;
 	}
 private:
-	std::shared_ptr<CEngine::VertexArray> m_QuadVertexArray;
+	// model
+	CEngine::Ref<CEngine::VertexArray> m_QuadVertexArray;
+	CEngine::Ref<CEngine::VertexArray> m_TriangleVertexArray;
 	glm::mat4 m_QuadModel = glm::mat4(1);
-	std::shared_ptr<CEngine::VertexArray> m_TriangleVertexArray;
 	glm::mat4 m_TriangleModel = glm::mat4(1);
 
-	std::shared_ptr<CEngine::Shader> m_Shader;
+	// shader
+	CEngine::Ref<CEngine::Shader> m_Shader;
+	glm::vec3 m_Color = {0.1f, 0.8f, 0.1f};
+	float m_Intense = 0.0f;
+
+	// camera
 	CEngine::OrthograhpicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
 	float m_CameraMoveSpeed = 2.f;
-
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 12.f;
+
+	// texture
+	CEngine::Ref<CEngine::Texture2D> m_Texture;
+	CEngine::Ref<CEngine::Texture2D> m_ChernoLogo;
 };
 
 class Sandbox : public CEngine::Application {

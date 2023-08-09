@@ -17,6 +17,7 @@ IncludeDir["GLFW"] = "CEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "CEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "CEngine/vendor/imgui"
 IncludeDir["glm"] = "CEngine/vendor/glm"
+IncludeDir["stb_image"] = "CEngine/vendor/stb_image"
 
 include "CEngine/vendor/GLFW"
 include "CEngine/vendor/Glad"
@@ -39,6 +40,8 @@ project "CEngine"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
@@ -55,7 +58,8 @@ project "CEngine"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links 

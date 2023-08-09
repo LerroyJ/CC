@@ -50,7 +50,7 @@ namespace CEngine{
 		glBindVertexArray(0);
 	}
 
-	void CEngine::OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+	void CEngine::OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
 		CC_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "VertexBuffer has no layout!");
 		glBindVertexArray(m_RendererID);
@@ -70,7 +70,7 @@ namespace CEngine{
 		m_VertexBuffers.push_back(vertexBuffer);
 	}
 
-	void CEngine::OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+	void CEngine::OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
 		glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
