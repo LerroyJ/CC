@@ -5,7 +5,7 @@
 class ExampleLayer : public CEngine::Layer {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(m_Camera.GetPosition())
+		: Layer("Example"), m_CameraController(1280.f/720.f)
 	{
 		// example quad
 		shaderLibrary.Load("quadShader", "assets/shaders/test.vs", "assets/shaders/test.frag");
@@ -71,25 +71,7 @@ public:
 	}
 	virtual void OnUpdate(CEngine::Timestep ts) override
 	{
-		if (CEngine::Input::IsKeyPressed(CC_KEY_LEFT)) {
-			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
-		}
-		else if (CEngine::Input::IsKeyPressed(CC_KEY_RIGHT)) {
-			m_CameraPosition.x += m_CameraMoveSpeed * ts;
-		}
-		if (CEngine::Input::IsKeyPressed(CC_KEY_UP)) {
-			m_CameraPosition.y += m_CameraMoveSpeed * ts;
-		}
-		else if (CEngine::Input::IsKeyPressed(CC_KEY_DOWN)) {
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
-		}
-
-		if (CEngine::Input::IsKeyPressed(CC_KEY_A)) {
-			m_CameraRotation += m_CameraRotationSpeed * ts.GetSecond();
-		}
-		else if (CEngine::Input::IsKeyPressed(CC_KEY_D)) {
-			m_CameraRotation -= m_CameraRotationSpeed * ts.GetSecond();
-		}
+		m_CameraController.OnUpdate(ts);
 		CEngine::RenderCommand::SetClearColor(glm::vec4(0.1, 0.2, 0.3, 1.0));
 		CEngine::RenderCommand::Clear();
 		auto quadShader = shaderLibrary.Get("quadShader");
@@ -97,9 +79,8 @@ public:
 		std::dynamic_pointer_cast<CEngine::OpenGLShader>(quadShader)->setVec3("u_Color", m_Color);
 		std::dynamic_pointer_cast<CEngine::OpenGLShader>(quadShader)->setFloat("u_Intense", m_Intense);
 		
-		m_Camera.SetRotation(m_CameraRotation);
-		m_Camera.SetPosition(m_CameraPosition);
-		CEngine::Renderer::BeginScene(m_Camera);
+		
+		CEngine::Renderer::BeginScene(m_CameraController.GetCamera());
 		m_Texture->Bind();
 		CEngine::Renderer::Submit(quadShader, m_QuadVertexArray);
 
@@ -118,12 +99,7 @@ public:
 	}
 
 	virtual void OnEvent(CEngine::Event& event) override {
-		CEngine::EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<CEngine::KeyPressedEvent>(BIND_EVENT_FN(ExampleLayer::OnKeyPressedEvent));
-	}
-
-	bool OnKeyPressedEvent(CEngine::KeyPressedEvent event) {
-		return false;
+		m_CameraController.OnEvent(event);
 	}
 private:
 	// model
@@ -138,11 +114,7 @@ private:
 	float m_Intense = 0.0f;
 
 	// camera
-	CEngine::OrthograhpicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 2.f;
-	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 12.f;
+	CEngine::OrthographicCameraController m_CameraController;
 
 	// texture
 	CEngine::Ref<CEngine::Texture2D> m_Texture;

@@ -7,7 +7,7 @@ namespace CEngine {
 	{
 		RenderCommand::Init();
 	}
-	void Renderer::BeginScene(OrthograhpicCamera& camera)
+	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
 		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}

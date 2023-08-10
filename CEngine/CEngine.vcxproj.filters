@@ -1411,6 +1411,7 @@
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\Test.h" />
+    <ClInclude Include="src\CEngine\Renderer\CameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CEngine\Application.cpp">
@@ -1485,5 +1486,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\CameraController.cpp" />
   </ItemGroup>
 </Project>

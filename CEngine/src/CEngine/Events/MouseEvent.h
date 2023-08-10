@@ -21,9 +21,9 @@ namespace CEngine {
 		float m_MouseX, m_MouseY;
 	};
 
-	class CC_API MouseScrooledEvent : public Event {
+	class CC_API MouseScrolledEvent : public Event {
 	public:
-		MouseScrooledEvent(float xOffset, float yOffset)
+		MouseScrolledEvent(float xOffset, float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {}
 		inline float GetXOffset() const { return m_XOffset; }
 		inline float GetYOffset() const { return m_YOffset; }
