@@ -165,6 +165,7 @@
     <ClInclude Include="src\CEngine\Renderer\Renderer.h" />
     <ClInclude Include="src\CEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\CEngine\Renderer\Shader.h" />
+    <ClInclude Include="src\CEngine\Renderer\Test.h" />
     <ClInclude Include="src\CEngine\Renderer\Texture.h" />
     <ClInclude Include="src\CEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\CEngine\Window.h" />

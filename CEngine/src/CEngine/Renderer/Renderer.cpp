@@ -17,8 +17,8 @@ namespace CEngine {
 	void Renderer::Submit(const Ref<Shader> shader, const Ref<VertexArray>& vertexArray, const glm::mat4& model)
 	{
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->setMat4("VP", m_SceneData->ViewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->setMat4("model", model);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->setMat4("u_VP", m_SceneData->ViewProjectionMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->setMat4("u_Model", model);
 		vertexArray->Bind();
 		if (vertexArray->GetIndexBuffer() != nullptr) {
 			RenderCommand::DrawIndexed(vertexArray);

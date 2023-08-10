@@ -8,7 +8,7 @@ public:
 		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(m_Camera.GetPosition())
 	{
 		// example quad
-		m_Shader = CEngine::Shader::Create("assets/shaders/test.vs", "assets/shaders/test.frag");
+		shaderLibrary.Load("quadShader", "assets/shaders/test.vs", "assets/shaders/test.frag");
 		m_Texture = CEngine::Texture2D::Create("assets/textures/floor.jpg");
 		m_ChernoLogo = CEngine::Texture2D::Create("assets/textures/ChernoLogo.png");
 		{
@@ -92,25 +92,26 @@ public:
 		}
 		CEngine::RenderCommand::SetClearColor(glm::vec4(0.1, 0.2, 0.3, 1.0));
 		CEngine::RenderCommand::Clear();
-		std::dynamic_pointer_cast<CEngine::OpenGLShader>(m_Shader)->Bind();
-		std::dynamic_pointer_cast<CEngine::OpenGLShader>(m_Shader)->setVec3("u_Color", m_Color);
-		std::dynamic_pointer_cast<CEngine::OpenGLShader>(m_Shader)->setFloat("u_Intense", m_Intense);
+		auto quadShader = shaderLibrary.Get("quadShader");
+		quadShader->Bind();
+		std::dynamic_pointer_cast<CEngine::OpenGLShader>(quadShader)->setVec3("u_Color", m_Color);
+		std::dynamic_pointer_cast<CEngine::OpenGLShader>(quadShader)->setFloat("u_Intense", m_Intense);
 		
 		m_Camera.SetRotation(m_CameraRotation);
 		m_Camera.SetPosition(m_CameraPosition);
 		CEngine::Renderer::BeginScene(m_Camera);
 		m_Texture->Bind();
-		CEngine::Renderer::Submit(m_Shader, m_QuadVertexArray);
+		CEngine::Renderer::Submit(quadShader, m_QuadVertexArray);
 
 		m_ChernoLogo->Bind();
-		CEngine::Renderer::Submit(m_Shader, m_QuadVertexArray);
+		CEngine::Renderer::Submit(quadShader, m_QuadVertexArray);
 		CEngine::Renderer::EndScene();
 
 	}
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::Begin("Color Settings");
+		ImGui::Begin("Color settings");
 		ImGui::ColorEdit3("Squard Color", glm::value_ptr(m_Color));
 		ImGui::SliderFloat("Intense", &m_Intense, 0.0f, 1.0f);
 		ImGui::End();
@@ -132,7 +133,7 @@ private:
 	glm::mat4 m_TriangleModel = glm::mat4(1);
 
 	// shader
-	CEngine::Ref<CEngine::Shader> m_Shader;
+	CEngine::ShaderLibrary shaderLibrary;
 	glm::vec3 m_Color = {0.1f, 0.8f, 0.1f};
 	float m_Intense = 0.0f;
 

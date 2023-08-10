@@ -2,7 +2,8 @@
 #include "OpenGLShader.h"
 #include "glad/glad.h"
 namespace CEngine {
-	OpenGLShader::OpenGLShader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
+	OpenGLShader::OpenGLShader(const std::string& name, const char* vertexPath, const char* fragmentPath, const char* geometryPath)
+		: m_Name(name)
 	{
 		std::string vertexCode;
 		std::string fragmentCode;
@@ -81,6 +82,11 @@ namespace CEngine {
 		if (geometryPath != nullptr)
 			glDeleteShader(geometry);
 
+	}
+	OpenGLShader::OpenGLShader(const char* path)
+	{
+		std::string shaderSource = ReadFile(path);
+		CC_CORE_INFO("shaderSource: {0}", shaderSource);
 	}
 	OpenGLShader::~OpenGLShader()
 	{
@@ -178,5 +184,21 @@ namespace CEngine {
 				CC_CORE_ERROR(infoLog);
 			}
 		}
+	}
+	std::string OpenGLShader::ReadFile(const std::string& path)
+	{
+		std::string result;
+		std::ifstream in(path, std::ios::in | std::ios::binary);
+		if (in) {
+			in.seekg(0, std::ios::end);
+			result.resize(in.tellg());
+			in.seekg(0, std::ios::beg);
+			in.read(&result[0], result.size());
+			in.close();
+		}
+		else {
+			CC_CORE_ERROR("Could not open file '{0}'", path);
+		}
+		return result;
 	}
 }

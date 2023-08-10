@@ -5,13 +5,15 @@
 namespace CEngine {
 	class OpenGLShader : public Shader {
 	public:
-		OpenGLShader(const char* vertexPath, const char* fragmentPath, const char* geometryPath);
+		OpenGLShader(const std::string& name, const char* vertexPath, const char* fragmentPath, const char* geometryPath);
+		OpenGLShader(const char* path);
 		virtual ~OpenGLShader();
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+		inline virtual const std::string& GetName() const override { return m_Name; }
 
 		inline virtual uint32_t GetID() const override { return m_RendererID; }
-		
+
 		void setBool(const std::string& name, bool value) const;
 		void setInt(const std::string& name, int value) const;
 		void setFloat(const std::string& name, float value) const;
@@ -26,6 +28,10 @@ namespace CEngine {
 		void setMat4(const std::string& name, const glm::mat4& mat) const;
 	private:
 		void checkCompileErrors(uint32_t shader, std::string type) const;
+		void Compile();
+		std::string ReadFile(const std::string& path);
+	private:
 		unsigned int m_RendererID;
+		std::string m_Name;
 	};
 }

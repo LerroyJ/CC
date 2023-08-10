@@ -45,16 +45,15 @@ namespace CEngine {
 
 	class EventDispatcher
 	{
-		template<typename T>
-		using EventFn = std::function<bool(T&)>;
+		
 	public:
 		EventDispatcher(Event& event)
 			: m_Event(event) {}
 
-		template<typename T>
-		inline bool Dispatch(EventFn<T> func) {
+		template<typename T, typename F>
+		inline bool Dispatch(const F& func) {
 			if (m_Event.GetEventType() == T::GetStaticType()) {
-				m_Event.m_Handled = func(*(T*)&m_Event);
+				m_Event.m_Handled = func(static_cast<T&>(m_Event));
 				m_Event.Handled = m_Event.m_Handled;
 				return true;
 			}

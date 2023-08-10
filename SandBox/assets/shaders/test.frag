@@ -11,5 +11,6 @@ uniform float u_Intense;
 
 void main()
 {
-    FragColor = texture(u_Albedo, TexCoords);
+    vec4 color = texture(u_Albedo, TexCoords);
+    FragColor = color;
 }
