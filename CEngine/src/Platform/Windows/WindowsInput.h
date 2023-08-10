@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CEngine/Input.h"
+#include "CEngine/Core/Input.h"
 namespace CEngine{
 	class WindowsInput : public Input
 	{

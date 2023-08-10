@@ -57,17 +57,38 @@
     <ClInclude Include="src\CEngine.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\Application.h">
-      <Filter>src\CEngine</Filter>
+    <ClInclude Include="src\CEngine\Core\Application.h">
+      <Filter>src\CEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\Core.h">
-      <Filter>src\CEngine</Filter>
+    <ClInclude Include="src\CEngine\Core\Core.h">
+      <Filter>src\CEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Core\EntryPoint.h">
+      <Filter>src\CEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Core\Input.h">
+      <Filter>src\CEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Core\Layer.h">
+      <Filter>src\CEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Core\LayerStack.h">
+      <Filter>src\CEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Core\Log.h">
+      <Filter>src\CEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Core\MouseButtonCodes.h">
+      <Filter>src\CEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\CEngine\Core\Timestep.h">
       <Filter>src\CEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\EntryPoint.h">
-      <Filter>src\CEngine</Filter>
+    <ClInclude Include="src\CEngine\Core\Window.h">
+      <Filter>src\CEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Core\keyCodes.h">
+      <Filter>src\CEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\CEngine\Events\ApplicationEvent.h">
       <Filter>src\CEngine\Events</Filter>
@@ -84,25 +105,13 @@
     <ClInclude Include="src\CEngine\ImGui\ImGuiLayer.h">
       <Filter>src\CEngine\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\Input.h">
-      <Filter>src\CEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\Layer.h">
-      <Filter>src\CEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\LayerStack.h">
-      <Filter>src\CEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\Log.h">
-      <Filter>src\CEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\MouseButtonCodes.h">
-      <Filter>src\CEngine</Filter>
-    </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\Buffer.h">
       <Filter>src\CEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\Camera.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\CameraController.h">
       <Filter>src\CEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\GraphicsContext.h">
@@ -120,17 +129,14 @@
     <ClInclude Include="src\CEngine\Renderer\Shader.h">
       <Filter>src\CEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Test.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\Texture.h">
       <Filter>src\CEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\VertexArray.h">
       <Filter>src\CEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\Window.h">
-      <Filter>src\CEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CEngine\keyCodes.h">
-      <Filter>src\CEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1410,12 +1416,19 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\Test.h" />
-    <ClInclude Include="src\CEngine\Renderer\CameraController.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CEngine\Application.cpp">
-      <Filter>src\CEngine</Filter>
+    <ClCompile Include="src\CEngine\Core\Application.cpp">
+      <Filter>src\CEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Core\Layer.cpp">
+      <Filter>src\CEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Core\LayerStack.cpp">
+      <Filter>src\CEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Core\Log.cpp">
+      <Filter>src\CEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\CEngine\ImGui\ImGuiBuild.cpp">
       <Filter>src\CEngine\ImGui</Filter>
@@ -1423,19 +1436,13 @@
     <ClCompile Include="src\CEngine\ImGui\ImGuiLayer.cpp">
       <Filter>src\CEngine\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\CEngine\Layer.cpp">
-      <Filter>src\CEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CEngine\LayerStack.cpp">
-      <Filter>src\CEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CEngine\Log.cpp">
-      <Filter>src\CEngine</Filter>
-    </ClCompile>
     <ClCompile Include="src\CEngine\Renderer\Buffer.cpp">
       <Filter>src\CEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\CEngine\Renderer\Camera.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\CameraController.cpp">
       <Filter>src\CEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\CEngine\Renderer\RenderCommand.cpp">
@@ -1486,6 +1493,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\CameraController.cpp" />
   </ItemGroup>
 </Project>

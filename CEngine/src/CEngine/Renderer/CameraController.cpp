@@ -1,7 +1,7 @@
 #include "ccpch.h"
 #include "CameraController.h"
-#include "CEngine/Input.h"
-#include "CEngine/keyCodes.h"
+#include "CEngine/Core/Input.h"
+#include "CEngine/Core/keyCodes.h"
 namespace CEngine {
     OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
         : m_AspectRatio(aspectRatio), m_Rotation(rotation), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio* m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel)

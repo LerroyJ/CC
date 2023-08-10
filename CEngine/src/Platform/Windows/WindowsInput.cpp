@@ -1,11 +1,11 @@
 #include "ccpch.h"
 #include "WindowsInput.h"
-#include "CEngine/Application.h"
+#include "CEngine/Core/Application.h"
 #include "GLFW/glfw3.h"
 
 namespace CEngine {
 
-	Input* Input::s_Instance = new WindowsInput();
+	Scope<Input> Input::s_Instance = CreateScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressedImpl(int keycode)
 	{

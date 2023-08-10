@@ -76,7 +76,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ccpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CC_PLATFORM_WINDOWS;CC_BUILD_DLL;GLFW_INCLUDE_NONE;CC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CC_BUILD_DLL;GLFW_INCLUDE_NONE;CC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -97,7 +97,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ccpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CC_PLATFORM_WINDOWS;CC_BUILD_DLL;GLFW_INCLUDE_NONE;CC_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CC_BUILD_DLL;GLFW_INCLUDE_NONE;CC_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -122,7 +122,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>ccpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CC_PLATFORM_WINDOWS;CC_BUILD_DLL;GLFW_INCLUDE_NONE;CC_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;CC_BUILD_DLL;GLFW_INCLUDE_NONE;CC_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -144,20 +144,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\CEngine.h" />
-    <ClInclude Include="src\CEngine\Application.h" />
-    <ClInclude Include="src\CEngine\Core.h" />
+    <ClInclude Include="src\CEngine\Core\Application.h" />
+    <ClInclude Include="src\CEngine\Core\Core.h" />
+    <ClInclude Include="src\CEngine\Core\EntryPoint.h" />
+    <ClInclude Include="src\CEngine\Core\Input.h" />
+    <ClInclude Include="src\CEngine\Core\Layer.h" />
+    <ClInclude Include="src\CEngine\Core\LayerStack.h" />
+    <ClInclude Include="src\CEngine\Core\Log.h" />
+    <ClInclude Include="src\CEngine\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\CEngine\Core\Timestep.h" />
-    <ClInclude Include="src\CEngine\EntryPoint.h" />
+    <ClInclude Include="src\CEngine\Core\Window.h" />
+    <ClInclude Include="src\CEngine\Core\keyCodes.h" />
     <ClInclude Include="src\CEngine\Events\ApplicationEvent.h" />
     <ClInclude Include="src\CEngine\Events\Event.h" />
     <ClInclude Include="src\CEngine\Events\KeyEvent.h" />
     <ClInclude Include="src\CEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\CEngine\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\CEngine\Input.h" />
-    <ClInclude Include="src\CEngine\Layer.h" />
-    <ClInclude Include="src\CEngine\LayerStack.h" />
-    <ClInclude Include="src\CEngine\Log.h" />
-    <ClInclude Include="src\CEngine\MouseButtonCodes.h" />
     <ClInclude Include="src\CEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\CEngine\Renderer\Camera.h" />
     <ClInclude Include="src\CEngine\Renderer\CameraController.h" />
@@ -169,8 +171,6 @@
     <ClInclude Include="src\CEngine\Renderer\Test.h" />
     <ClInclude Include="src\CEngine\Renderer\Texture.h" />
     <ClInclude Include="src\CEngine\Renderer\VertexArray.h" />
-    <ClInclude Include="src\CEngine\Window.h" />
-    <ClInclude Include="src\CEngine\keyCodes.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRenderAPI.h" />
@@ -599,12 +599,12 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CEngine\Application.cpp" />
+    <ClCompile Include="src\CEngine\Core\Application.cpp" />
+    <ClCompile Include="src\CEngine\Core\Layer.cpp" />
+    <ClCompile Include="src\CEngine\Core\LayerStack.cpp" />
+    <ClCompile Include="src\CEngine\Core\Log.cpp" />
     <ClCompile Include="src\CEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\CEngine\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\CEngine\Layer.cpp" />
-    <ClCompile Include="src\CEngine\LayerStack.cpp" />
-    <ClCompile Include="src\CEngine\Log.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Camera.cpp" />
     <ClCompile Include="src\CEngine\Renderer\CameraController.cpp" />

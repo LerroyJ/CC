@@ -4,9 +4,9 @@
 #include "backends/imgui_impl_opengl3.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include "CEngine/MouseButtonCodes.h"
-#include "CEngine/keyCodes.h"
-#include "CEngine/Application.h"
+#include "CEngine/Core/MouseButtonCodes.h"
+#include "CEngine/Core/keyCodes.h"
+#include "CEngine/Core/Application.h"
 
 namespace CEngine {
 	ImGuiLayer::ImGuiLayer()

@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include<CEngine/Log.h>
+#include<CEngine/Core/Log.h>
 
 #ifdef CC_PLATFORM_WINDOWS
 	#include<Windows.h>

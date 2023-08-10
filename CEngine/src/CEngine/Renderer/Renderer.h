@@ -7,6 +7,8 @@ namespace CEngine {
 	public:
 		static void Init();
 
+		static void OnWindowResize(uint32_t width, uint32_t height);
+
 		static void BeginScene(OrthographicCamera& camera);
 
 		static void EndScene();
@@ -18,6 +20,6 @@ namespace CEngine {
 		struct SceneData {
 			glm::mat4 ViewProjectionMatrix;
 		};
-		static Ref<SceneData> m_SceneData;
+		static Scope<SceneData> m_SceneData;
 	};
 }

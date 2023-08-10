@@ -1,6 +1,6 @@
 #pragma once
 #include "Window.h"
-#include "CEngine/LayerStack.h"
+#include "CEngine/Core/LayerStack.h"
 #include "CEngine/Core/Timestep.h"
 
 #include "CEngine/Events/Event.h"
@@ -30,9 +30,10 @@ namespace CEngine {
 		bool OnWindowResize(WindowResizeEvent& e);
 		bool OnMouseMoe(MouseMovedEvent& e);
 
-		std::unique_ptr<Window> m_Window;
+		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
+		bool m_Minimized = false;
 		LayerStack m_LayerStack;
 
 		float m_LastFrameTime = 0.f;

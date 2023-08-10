@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CEngine/Core.h"
+#include "CEngine/Core/Core.h"
 
 namespace CEngine {
 	class CC_API Input {
@@ -21,6 +21,6 @@ namespace CEngine {
 		virtual float GetMouseXImpl() = 0;
 		virtual float GetMouseYImpl() = 0;
 	private:
-		static Input* s_Instance;
+		static Scope<Input> s_Instance;
 	};
 }

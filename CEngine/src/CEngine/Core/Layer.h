@@ -1,5 +1,5 @@
 #pragma once
-#include "CEngine/Core.h"
+#include "CEngine/Core/Core.h"
 #include "CEngine/Events/Event.h"
 #include "CEngine/Core/Timestep.h"
 namespace CEngine {

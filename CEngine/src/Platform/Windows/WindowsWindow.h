@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CEngine/Window.h"
+#include "CEngine/Core/Window.h"
 #include "CEngine/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
@@ -29,7 +29,7 @@ namespace CEngine {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
-		GraphicsContext* m_Context;
+		Scope<GraphicsContext> m_Context;
 
 		struct WindowData {
 			std::string Title;
