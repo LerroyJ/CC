@@ -166,6 +166,7 @@
     <ClInclude Include="src\CEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\CEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\CEngine\Renderer\Renderer.h" />
+    <ClInclude Include="src\CEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\CEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\CEngine\Renderer\Shader.h" />
     <ClInclude Include="src\CEngine\Renderer\Test.h" />
@@ -610,6 +611,7 @@
     <ClCompile Include="src\CEngine\Renderer\CameraController.cpp" />
     <ClCompile Include="src\CEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\CEngine\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\CEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Shader.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Texture.cpp" />

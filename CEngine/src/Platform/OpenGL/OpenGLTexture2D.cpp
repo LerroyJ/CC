@@ -1,6 +1,5 @@
 #include "ccpch.h"
 #include "OpenGLTexture2D.h"
-
 #include <glad/glad.h>
 #include "stb_image.h"
 namespace CEngine {
@@ -8,8 +7,25 @@ namespace CEngine {
 		: m_Path(path), m_RendererID(loadTexture())
 	{
 	}
+    OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
+        : m_Width(width), m_Height(height)
+    {
+        glGenTextures(1, &m_RendererID);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
     OpenGLTexture2D::~OpenGLTexture2D() {
         glDeleteTextures(1, &m_RendererID);
+    }
+    void OpenGLTexture2D::SetData(uint32_t size, void* data)
+    {
+        glBindTexture(GL_TEXTURE_2D, m_RendererID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
@@ -24,6 +40,7 @@ namespace CEngine {
         stbi_set_flip_vertically_on_load(1);
         int nrComponents;
         unsigned char* data = stbi_load(m_Path.c_str(), &m_Width, &m_Height, &nrComponents, 0);
+        CC_CORE_INFO("WIDHT * HEIGHT * CHANNLE {0}*{1}*{2} = {3}", m_Width, m_Height, nrComponents, nrComponents * m_Height * m_Width);
         if (data)
         {
             GLenum internalFormat;

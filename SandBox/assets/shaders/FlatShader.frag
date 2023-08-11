@@ -1,8 +1,9 @@
 #version 330 core
 out vec4 FragColor;
 
-uniform vec4 u_Color;
+in vec2 TexCoords;
 
+uniform vec4 u_Color;
 void main()
 {
     FragColor = u_Color;

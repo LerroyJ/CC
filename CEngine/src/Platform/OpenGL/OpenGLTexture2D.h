@@ -5,7 +5,9 @@ namespace CEngine{
 	{
 	public:
 		OpenGLTexture2D(const std::string& path);
+		OpenGLTexture2D(uint32_t width, uint32_t height);
 		~OpenGLTexture2D();
+		virtual void SetData(uint32_t size, void* data) override;
 		inline virtual uint32_t GetWidth() const override { return m_Width; }
 		inline virtual uint32_t GetHeight() const override { return m_Height; }
 

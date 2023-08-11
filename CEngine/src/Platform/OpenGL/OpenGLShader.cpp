@@ -104,7 +104,6 @@ namespace CEngine {
 	{
 		glUniform1i(glGetUniformLocation(m_RendererID, name.c_str()), (int)value);
 	}
-
 	void OpenGLShader::setInt(const std::string& name, int value) const
 	{
 		glUniform1i(glGetUniformLocation(m_RendererID, name.c_str()), value);
@@ -140,7 +139,7 @@ namespace CEngine {
 		glUniform4fv(glGetUniformLocation(m_RendererID, name.c_str()), 1, &value[0]);
 	}
 
-	void OpenGLShader::setVec4(const std::string& name, float x, float y, float z, float w)
+	void OpenGLShader::setVec4(const std::string& name, float x, float y, float z, float w) const
 	{
 		glUniform4f(glGetUniformLocation(m_RendererID, name.c_str()), x, y, z, w);
 	}
