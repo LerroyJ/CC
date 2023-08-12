@@ -3,6 +3,8 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "RenderCommand.h"
+
+
 namespace CEngine {
 	struct Renderer2DStorage {
 		Ref<VertexArray> vertexArray;
@@ -18,11 +20,11 @@ namespace CEngine {
 		s_Data->whiteTexture = CEngine::Texture2D::Create(1, 1);
 		s_Data->whiteTexture->SetData(sizeof(uint32_t), &whiteTextureDatat);
 		float quadVertices[] = {
-			// positions        // normal         //coords    //color
-			-0.5f,  0.5,  0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.2f, 0.1f, 0.7f,
-			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.7f, 0.1f, 0.0f,
-			 0.5,   0.5,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.6f, 0.0f,
-			 0.5,  -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.3f, 0.0f, 0.5f
+			// positions        // normal         //coords   
+			-0.5f,  0.5,  0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+			 0.5,   0.5,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+			 0.5,  -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f
 		};
 		uint32_t quadIndices[] = {
 				0,1,3,
@@ -31,8 +33,7 @@ namespace CEngine {
 		CEngine::BufferLayout layout = {
 			{"Position", CEngine::ShaderDataType::Float3},
 			{"Normal",CEngine::ShaderDataType::Float3},
-			{"TexCoord", CEngine::ShaderDataType::Float2},
-			{"Color", CEngine::ShaderDataType::Float3}
+			{"TexCoord", CEngine::ShaderDataType::Float2}
 		};
 		CEngine::Ref<CEngine::VertexBuffer> vertexBuffer = CEngine::VertexBuffer::Create(quadVertices, sizeof(quadVertices));
 		vertexBuffer->SetLayout(layout);
@@ -55,9 +56,11 @@ namespace CEngine {
 	{
 
 	}
+
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		glm::mat4 model = glm::translate(glm::mat4(1), position) * glm::scale(glm::mat4(1), glm::vec3(size, 1));
+		glm::mat4 model = glm::translate(glm::mat4(1), position)
+			* glm::scale(glm::mat4(1), glm::vec3(size, 1));
 		s_Data->whiteTexture->Bind();
 		s_Data->textureShader->setMat4("u_Model", model);
 		s_Data->textureShader->setVec4("u_Color", color);
@@ -69,9 +72,10 @@ namespace CEngine {
 		DrawQuad(glm::vec3(position, 0.0f), size, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture) {
-		glm::mat4 model = glm::translate(glm::mat4(1), position) * glm::scale(glm::mat4(1), glm::vec3(size, 1));
-		s_Data->textureShader->setVec4("u_Color", { 1,1,1,1 });
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tiniColor) {
+		glm::mat4 model = glm::translate(glm::mat4(1), position)
+			* glm::scale(glm::mat4(1), glm::vec3(size, 1));
+		s_Data->textureShader->setVec4("u_Color", tiniColor);
 		s_Data->textureShader->setMat4("u_Model", model);
 		s_Data->textureShader->setFloat("u_xScale", size.x);
 		s_Data->textureShader->setFloat("u_yScale", size.y);
@@ -80,7 +84,40 @@ namespace CEngine {
 		RenderCommand::DrawIndexed(s_Data->vertexArray);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture) {
-		DrawQuad(glm::vec3(position, 0.0f), size, texture);
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tiniColor) {
+		DrawQuad(glm::vec3(position, 0.0f), size, texture, tiniColor);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
+	{
+		glm::mat4 model = glm::translate(glm::mat4(1), position)
+			* glm::rotate(glm::mat4(1), glm::radians(rotation), {0.0f, 0.0f, 1.0f})
+			* glm::scale(glm::mat4(1), glm::vec3(size, 1));
+		s_Data->whiteTexture->Bind();
+		s_Data->textureShader->setMat4("u_Model", model);
+		s_Data->textureShader->setVec4("u_Color", color);
+		s_Data->vertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->vertexArray);
+	}
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
+	{
+		DrawRotatedQuad(glm::vec3(position, 0.0f), size, rotation, color);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tiniColor) {
+		glm::mat4 model = glm::translate(glm::mat4(1), position) 
+			* glm::rotate(glm::mat4(1), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+			* glm::scale(glm::mat4(1), glm::vec3(size, 1));
+		s_Data->textureShader->setVec4("u_Color", tiniColor);
+		s_Data->textureShader->setMat4("u_Model", model);
+		s_Data->textureShader->setFloat("u_xScale", size.x);
+		s_Data->textureShader->setFloat("u_yScale", size.y);
+		s_Data->vertexArray->Bind();
+		texture->Bind();
+		RenderCommand::DrawIndexed(s_Data->vertexArray);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tiniColor) {
+		DrawRotatedQuad(glm::vec3(position, 0.0f), size, rotation, texture, tiniColor);
 	}
 }

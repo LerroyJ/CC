@@ -1,6 +1,5 @@
 #pragma once
 #include "CEngine/Core/Timestep.h"
-#include "CEngine/Events/Event.h"
 #include "CEngine/Events/MouseEvent.h"
 #include "CEngine/Events/ApplicationEvent.h"
 #include "Camera.h"

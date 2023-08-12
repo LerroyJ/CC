@@ -123,6 +123,9 @@
     <ClInclude Include="src\CEngine\Renderer\Renderer.h">
       <Filter>src\CEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Renderer2D.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\RendererAPI.h">
       <Filter>src\CEngine\Renderer</Filter>
     </ClInclude>
@@ -1416,7 +1419,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\Renderer2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CEngine\Core\Application.cpp">
@@ -1450,6 +1452,9 @@
       <Filter>src\CEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\CEngine\Renderer\Renderer.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\Renderer2D.cpp">
       <Filter>src\CEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\CEngine\Renderer\RendererAPI.cpp">
@@ -1494,6 +1499,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\Renderer2D.cpp" />
   </ItemGroup>
 </Project>
