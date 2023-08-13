@@ -14,7 +14,9 @@ void Sandbox2D::OnUpdate(CEngine::Timestep ts)
 
 	CEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 	//CEngine::Renderer2D::DrawQuad(m_CheckerboardPos, m_CheckerboardSize, m_CheckerboardTexture);
-	//CEngine::Renderer2D::DrawRotatedQuad(m_QuadPos, m_QuadSize, m_QuadRotation, m_QuadColor);
+	CEngine::Renderer2D::DrawQuad(m_QuadAPos, m_QuadASize, m_QuadAColor);
+	CEngine::Renderer2D::DrawQuad(m_QuadBPos, m_QuadBSize, m_QuadBColor);
+	CEngine::Renderer2D::DrawQuad(m_QuadCPos, m_QuadCSize, m_QuadCColor);
 	CEngine::Renderer2D::EndScene();
 }
 
@@ -26,11 +28,19 @@ void Sandbox2D::OnImGuiRender()
 	ImGui::DragFloat2("FloorSize", glm::value_ptr(m_CheckerboardSize), 0.05f);
 
 
-	ImGui::TextColored({ 1,0,0,1 }, "Quad Settings");
-	ImGui::DragFloat2("QuadPos", glm::value_ptr(m_QuadPos), 0.05f);
+	ImGui::TextColored({ 1,0,0,1 }, "QuadA Settings");
+	ImGui::DragFloat2("QuadAPos", glm::value_ptr(m_QuadAPos), 0.05f);
+	ImGui::DragFloat2("QuadASize", glm::value_ptr(m_QuadASize), 0.1f);
+	ImGui::ColorEdit4("QuadAColor", glm::value_ptr(m_QuadAColor));
+	ImGui::TextColored({ 1,0,0,1 }, "QuadB Settings");
+	ImGui::DragFloat2("QuadBPos", glm::value_ptr(m_QuadBPos), 0.05f);
+	ImGui::DragFloat2("QuadBSize", glm::value_ptr(m_QuadBSize), 0.1f);
+	ImGui::ColorEdit4("QuadBColor", glm::value_ptr(m_QuadBColor));
+	ImGui::TextColored({ 1,0,0,1 }, "QuadC Settings");
+	ImGui::DragFloat2("QuadCPos", glm::value_ptr(m_QuadCPos), 0.05f);
+	ImGui::DragFloat2("QuadCSize", glm::value_ptr(m_QuadCSize), 0.1f);
+	ImGui::ColorEdit4("QuadCColor", glm::value_ptr(m_QuadCColor));
 	ImGui::DragFloat("QuadRotation", &m_QuadRotation, 0.05f);
-	ImGui::DragFloat2("QuadSize", glm::value_ptr(m_QuadSize), 0.1f);
-	ImGui::ColorEdit4("QuadColor", glm::value_ptr(m_QuadColor));
 	ImGui::End();
 }
 

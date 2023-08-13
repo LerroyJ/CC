@@ -17,8 +17,16 @@ private:
 	glm::vec3 m_CheckerboardPos = { 0.0f, 0.0f , -0.9f};
 	glm::vec2 m_CheckerboardSize = { 3.0f, 3.0f };
 
-	glm::vec4 m_QuadColor = { 0.9f, 0.1f, 0.2f, 1.0f };
-	glm::vec2 m_QuadPos = { 0.0f, 0.0f };
-	glm::vec2 m_QuadSize = { 0.3f, 0.3f };
+	glm::vec4 m_QuadAColor = { 0.9f, 0.1f, 0.2f, 1.0f };
+	glm::vec2 m_QuadAPos = { 1.0f, 0.0f };
+	glm::vec2 m_QuadASize = { 0.3f, 0.3f };
+
+	glm::vec4 m_QuadBColor = { 0.1f, 0.9f, 0.2f, 1.0f };
+	glm::vec2 m_QuadBPos = { 0.0f, 0.0f };
+	glm::vec2 m_QuadBSize = { 0.3f, 0.3f };
+
+	glm::vec4 m_QuadCColor = { 0.1f, 0.1f, 0.9f, 1.0f };
+	glm::vec2 m_QuadCPos = { 0.0f, 1.0f };
+	glm::vec2 m_QuadCSize = { 0.3f, 0.3f };
 	float m_QuadRotation = 8.05f;
 };

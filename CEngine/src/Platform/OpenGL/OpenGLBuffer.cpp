@@ -6,6 +6,12 @@ namespace CEngine
 	///////////////////////////////////////////////////////
 	// VertexBuffer ///////////////////////////////////////
 	///////////////////////////////////////////////////////
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+	{
+		glGenBuffers(1, &m_RendererID);
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+	}
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
 	{
 		glGenBuffers(1, &m_RendererID);
@@ -24,6 +30,13 @@ namespace CEngine
 	void CEngine::OpenGLVertexBuffer::Unbind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size) const
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+		void* ptr = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+		memcpy(ptr, data, size);
+		glUnmapBuffer(GL_ARRAY_BUFFER);
 	}
 	///////////////////////////////////////////////////////
 	// IndexBuffer ///////////////////////////////////////

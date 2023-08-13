@@ -3,6 +3,20 @@
 #include "Renderer.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
 namespace CEngine {
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case RendererAPI::API::None:
+			CC_CORE_ASSERT(false, "RendererAPI::None is currently not support");
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return CreateRef<OpenGLVertexBuffer>(size);
+		}
+		CC_CORE_ASSERT(false, "Unknown RendererAPI!");
+		return nullptr;
+	}
+
 	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		switch (Renderer::GetAPI())
@@ -11,13 +25,13 @@ namespace CEngine {
 			CC_CORE_ASSERT(false, "RendererAPI::None is currently not support");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLVertexBuffer>(vertices, size);
+			return CreateRef<OpenGLVertexBuffer>(vertices, size);
 		}
 		CC_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
 	
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -25,7 +39,7 @@ namespace CEngine {
 			CC_CORE_ASSERT(false, "RendererAPI::None is currently not support");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLIndexBuffer>(indices, size);
+			return CreateRef<OpenGLIndexBuffer>(indices, count);
 		}
 		CC_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
