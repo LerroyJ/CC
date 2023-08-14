@@ -42,7 +42,7 @@ namespace CEngine {
 		uint32_t Offset;
 		uint32_t Size;
 		bool Normalized;
-		inline uint32_t GetComponentCount() const{
+		uint32_t GetComponentCount() const{
 			switch (Type)
 			{
 			case CEngine::ShaderDataType::None:
@@ -89,10 +89,10 @@ namespace CEngine {
 		{
 			CalculateOffsetAndStride();
 		}
-		inline const uint32_t GetStride() const { return m_Stride; }
-		inline const std::vector<BufferElement>& GetElements() const { return m_Elements; }
+		const uint32_t GetStride() const { return m_Stride; }
+		const std::vector<BufferElement>& GetElements() const { return m_Elements; }
 	private:
-		inline void CalculateOffsetAndStride() {
+		void CalculateOffsetAndStride() {
 			uint32_t offset = 0;
 			m_Stride = 0;
 			for (auto& element : m_Elements) {

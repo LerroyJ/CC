@@ -13,12 +13,12 @@ void Sandbox2D::OnUpdate(CEngine::Timestep ts)
 
 	CEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 	//CEngine::Renderer2D::DrawQuad(m_CheckerboardPos, m_CheckerboardSize, m_CheckerboardTexture);
-	CEngine::Renderer2D::DrawQuad(m_QuadAPos, m_QuadASize, m_QuadAColor);
-	CEngine::Renderer2D::DrawQuad(m_QuadBPos, m_QuadBSize, m_QuadBColor);
-	CEngine::Renderer2D::DrawQuad(m_QuadCPos, m_QuadCSize, m_QuadCColor);
+	CEngine::Renderer2D::DrawRotatedQuad(m_QuadAPos, m_QuadASize, m_QuadRotation, m_QuadAColor);
+	CEngine::Renderer2D::DrawRotatedQuad(m_QuadBPos, m_QuadBSize, m_QuadRotation, m_QuadBColor);
+	CEngine::Renderer2D::DrawRotatedQuad(m_QuadCPos, m_QuadCSize, m_QuadRotation, m_QuadCColor);
 	for (int x = 0; x < m_Count; x++)
 		for (int y = 0; y < m_Count; y++)
-			CEngine::Renderer2D::DrawQuad({ x - m_Count / 2,y - m_Count / 2 }, { 0.8f,0.8f }, m_CheckerboardTexture);
+			CEngine::Renderer2D::DrawRotatedQuad({ x - m_Count / 2,y - m_Count / 2 }, { 0.8f,0.8f }, m_QuadRotation, m_CheckerboardTexture);
 	CEngine::Renderer2D::DrawQuad({ 0,0 }, { 1.8f,1.8f }, m_FloorTexture);
 	CEngine::Renderer2D::EndScene();
 }

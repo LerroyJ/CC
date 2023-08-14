@@ -10,10 +10,10 @@ namespace CEngine {
 		virtual ~OpenGLVertexBuffer();
 		virtual void Bind() override;
 		virtual void Unbind() override;
-		inline virtual const BufferLayout& GetLayout() const override {
+		virtual const BufferLayout& GetLayout() const override {
 			return m_Layout;
 		}
-		inline virtual void SetLayout(const BufferLayout& layout) override {
+		virtual void SetLayout(const BufferLayout& layout) override {
 			m_Layout = layout;
 		}
 		virtual void SetData(const void* data, uint32_t size) const  override;
@@ -28,7 +28,7 @@ namespace CEngine {
 		virtual ~OpenGLIndexBuffer();
 		virtual void Bind() override;
 		virtual void Unbind() override;
-		inline virtual uint32_t GetCount() const override{ return m_Count; }
+		virtual uint32_t GetCount() const override{ return m_Count; }
 	private:
 		uint32_t m_RendererID;
 		uint32_t m_Count;

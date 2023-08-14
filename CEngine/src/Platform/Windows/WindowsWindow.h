@@ -15,15 +15,15 @@ namespace CEngine {
 
 		virtual void OnUpdate() override;
 
-		inline virtual unsigned int GetWidth() const override { return m_Data.Width; }
-		inline virtual unsigned int GetHeight() const override { return m_Data.Height; }
+		virtual unsigned int GetWidth() const override { return m_Data.Width; }
+		virtual unsigned int GetHeight() const override { return m_Data.Height; }
 
 		// Window attributes
 		inline virtual void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		virtual void SetVSync(bool enabled) override;
 		virtual void SetTitle(const std::string& title) override;
 		virtual bool IsVSync() const override;
-		inline virtual void* GetNativeWindow() const override;
+		virtual void* GetNativeWindow() const override;
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();

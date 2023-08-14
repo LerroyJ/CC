@@ -10,9 +10,9 @@ namespace CEngine {
 		virtual ~OpenGLShader();
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
-		inline virtual const std::string& GetName() const override { return m_Name; }
+		virtual const std::string& GetName() const override { return m_Name; }
 
-		inline virtual uint32_t GetID() const override { return m_RendererID; }
+		virtual uint32_t GetID() const override { return m_RendererID; }
 		// Í¨¹ý Shader ¼Ì³Ð
 		virtual void setBool(const std::string& name, bool value) const override;
 		virtual void setInt(const std::string& name, int value) const override;

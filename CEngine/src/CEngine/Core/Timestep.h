@@ -10,8 +10,8 @@ namespace CEngine {
 
 		operator float() const { return m_Time; }
 
-		inline float GetSecond() const { return m_Time; }
-		inline float GetMilliseconds() const { return m_Time * 1000.0f; }
+		float GetSecond() const { return m_Time; }
+		float GetMilliseconds() const { return m_Time * 1000.0f; }
 	private:
 		float m_Time;
 	};
