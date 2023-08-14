@@ -28,6 +28,7 @@ namespace CEngine {
         virtual void setMat2(const std::string& name, const glm::mat2& mat) const = 0;
         virtual void setMat3(const std::string& name, const glm::mat3& mat) const = 0;
         virtual void setMat4(const std::string& name, const glm::mat4& mat) const = 0;
+        virtual void SetIntArray(const std::string& name, int* values, uint32_t count) = 0;
     };
 
     class ShaderLibrary {

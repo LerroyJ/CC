@@ -26,6 +26,7 @@ namespace CEngine {
 		virtual void setMat2(const std::string& name, const glm::mat2& mat) const override;
 		virtual void setMat3(const std::string& name, const glm::mat3& mat) const override;
 		virtual void setMat4(const std::string& name, const glm::mat4& mat) const override;
+		virtual void SetIntArray(const std::string& name, int* values, uint32_t count) override;
 	private:
 		void checkCompileErrors(uint32_t shader, std::string type) const;
 		std::string ReadFile(const std::string& path);

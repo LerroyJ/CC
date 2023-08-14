@@ -1,6 +1,5 @@
 #include "Sandbox2D.h"
 #include "Random.h"
-
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f)
 {
@@ -17,6 +16,10 @@ void Sandbox2D::OnUpdate(CEngine::Timestep ts)
 	CEngine::Renderer2D::DrawQuad(m_QuadAPos, m_QuadASize, m_QuadAColor);
 	CEngine::Renderer2D::DrawQuad(m_QuadBPos, m_QuadBSize, m_QuadBColor);
 	CEngine::Renderer2D::DrawQuad(m_QuadCPos, m_QuadCSize, m_QuadCColor);
+	for (int x = 0; x < m_Count; x++)
+		for (int y = 0; y < m_Count; y++)
+			CEngine::Renderer2D::DrawQuad({ x - m_Count / 2,y - m_Count / 2 }, { 0.8f,0.8f }, m_CheckerboardTexture);
+	CEngine::Renderer2D::DrawQuad({ 0,0 }, { 1.8f,1.8f }, m_FloorTexture);
 	CEngine::Renderer2D::EndScene();
 }
 
@@ -41,6 +44,7 @@ void Sandbox2D::OnImGuiRender()
 	ImGui::DragFloat2("QuadCSize", glm::value_ptr(m_QuadCSize), 0.1f);
 	ImGui::ColorEdit4("QuadCColor", glm::value_ptr(m_QuadCColor));
 	ImGui::DragFloat("QuadRotation", &m_QuadRotation, 0.05f);
+	ImGui::SliderInt("count", &m_Count, 1, 100);
 	ImGui::End();
 }
 
@@ -52,6 +56,7 @@ void Sandbox2D::OnEvent(CEngine::Event& event)
 void Sandbox2D::OnAttach()
 {
 	m_CheckerboardTexture = CEngine::Texture2D::Create("assets/textures/Checkerboard.png");
+	m_FloorTexture = CEngine::Texture2D::Create("assets/textures/floor.jpg");
 }
 
 void Sandbox2D::OnDetach()
