@@ -31,5 +31,5 @@ private:
 	glm::vec2 m_QuadCSize = { 0.3f, 0.3f };
 	float m_QuadRotation = 8.05f;
 
-	int m_Count = 2;
+	int m_Count = 10;
 };

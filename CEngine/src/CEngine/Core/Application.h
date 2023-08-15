@@ -25,6 +25,7 @@ namespace CEngine {
 			return  *s_Instance;
 		}
 		Window& GetWindow() { return *m_Window; }
+		void Close();
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);

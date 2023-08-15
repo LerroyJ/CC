@@ -22,10 +22,10 @@ namespace CEngine {
 		Ref<VertexBuffer> vertexBuffer;
 		Ref<Texture2D> whiteTexture;
 
-		const uint32_t MaxQuads = 10000;
+		static const uint32_t MaxQuads = 10000;
 		// vertexBuffer and indexBuffer
-		const uint32_t MaxVertices = MaxQuads * 4;
-		const uint32_t MaxIndices = MaxQuads * 6;
+		static const uint32_t MaxVertices = MaxQuads * 4;
+		static const uint32_t MaxIndices = MaxQuads * 6;
 
 		uint32_t QuadIndexCount = 0;
 		QuadVertex* QuadVertexBufferBase = nullptr;
@@ -39,6 +39,8 @@ namespace CEngine {
 
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 		uint32_t TextureSlotIndex = 1;	//0 = white texuter
+
+		Renderer2D::Statistics Stats;
 	};
 	static BatchRenderData s_Data;
 
@@ -118,10 +120,15 @@ namespace CEngine {
 			s_Data.TextureSlots[i]->Bind(i);
 		s_Data.vertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data.vertexArray, s_Data.QuadIndexCount);
+
+		s_Data.Stats.DrawCalls++;
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
+		if (s_Data.QuadIndexCount >= BatchRenderData::MaxIndices)
+			FlushAndReset();
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1), { size.x,size.y, 1.0f });
 
@@ -135,6 +142,8 @@ namespace CEngine {
 		}
 
 		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
 	}
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
@@ -142,6 +151,10 @@ namespace CEngine {
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tiniColor) {
+		
+		if (s_Data.QuadIndexCount >= BatchRenderData::MaxIndices)
+			FlushAndReset();
+
 		float textureIndex = 0.0f;
 
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
@@ -169,6 +182,8 @@ namespace CEngine {
 		}
 
 		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tiniColor) {
@@ -177,6 +192,9 @@ namespace CEngine {
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 	{
+		if (s_Data.QuadIndexCount >= BatchRenderData::MaxIndices)
+			FlushAndReset();
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::rotate(glm::mat4(1), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1), { size.x,size.y, 1.0f });
@@ -191,6 +209,8 @@ namespace CEngine {
 		}
 
 		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
 	}
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 	{
@@ -199,6 +219,9 @@ namespace CEngine {
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tiniColor)
 	{
+		if (s_Data.QuadIndexCount >= BatchRenderData::MaxIndices)
+			FlushAndReset();
+
 		float textureIndex = 0.0f;
 
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
@@ -227,9 +250,31 @@ namespace CEngine {
 		}
 
 		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tiniColor) {
 		DrawRotatedQuad(glm::vec3(position, 0.0f), size, rotation, texture, tiniColor);
+	}
+
+	Renderer2D::Statistics Renderer2D::GetStats()
+	{
+		return s_Data.Stats;
+	}
+
+	void Renderer2D::ResetStats()
+	{
+		memset(&s_Data.Stats, 0, sizeof(Renderer2D::Statistics));
+	}
+
+	void Renderer2D::FlushAndReset() 
+	{
+		EndScene();
+
+		s_Data.QuadIndexCount = 0;
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+
+		s_Data.TextureSlotIndex = 1;
 	}
 }

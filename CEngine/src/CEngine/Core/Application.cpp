@@ -22,6 +22,10 @@ namespace CEngine {
 	{
 	}
 
+	void Application::Close() {
+		m_Running = false;
+	}
+
 	void Application::OnEvent(Event& e) {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClosed));
