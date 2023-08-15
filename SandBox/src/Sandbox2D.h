@@ -13,6 +13,7 @@ public:
 private:
 	CEngine::OrthographicCameraController m_CameraController;
 
+	// Temp
 	CEngine::Ref<CEngine::Texture2D> m_CheckerboardTexture;
 	CEngine::Ref<CEngine::Texture2D> m_FloorTexture;
 	glm::vec3 m_CheckerboardPos = { 0.0f, 0.0f , -0.9f};
@@ -32,4 +33,6 @@ private:
 	float m_QuadRotation = 8.05f;
 
 	int m_Count = 10;
+
+	CEngine::Ref<CEngine::Framebuffer> m_Framebuffer;
 };

@@ -16,6 +16,7 @@
 #include "CEngine/Renderer/Camera.h"
 #include "CEngine/Renderer/CameraController.h"
 #include "CEngine/Renderer/Texture.h"
+#include "CEngine/Renderer/Framebuffer.h"
 
 #include "CEngine/ImGui/ImGuiLayer.h"
 

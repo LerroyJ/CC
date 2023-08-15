@@ -3,10 +3,15 @@
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f)
 {
+	CEngine::FramebufferSpecification fbSpec;
+	fbSpec.Width = 1280;
+	fbSpec.Height = 720;
+	m_Framebuffer = CEngine::Framebuffer::Create(fbSpec);
 }
 
 void Sandbox2D::OnUpdate(CEngine::Timestep ts)
 {
+	m_Framebuffer->Bind();
 	m_CameraController.OnUpdate(ts);
 	CEngine::RenderCommand::Clear();
 	CEngine::RenderCommand::SetClearColor({ 0.1, 0.2, 0.3, 1.0 });
@@ -23,6 +28,7 @@ void Sandbox2D::OnUpdate(CEngine::Timestep ts)
 			CEngine::Renderer2D::DrawRotatedQuad({ x - (float)m_Count / 2.0f,y - (float)m_Count / 2.0f }, { 0.8f,0.8f }, m_QuadRotation, m_CheckerboardTexture);
 	CEngine::Renderer2D::DrawQuad({ 0,0 }, { 1.8f,1.8f }, m_FloorTexture);
 	CEngine::Renderer2D::EndScene();
+	m_Framebuffer->Unbind();
 }
 
 void Sandbox2D::OnImGuiRender()
@@ -99,8 +105,9 @@ void Sandbox2D::OnImGuiRender()
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_QuadAColor));
 
-		uint32_t textureID = m_CheckerboardTexture->GetRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ 256.0f, 256.0f });
+		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+		CEngine::FramebufferSpecification sbc = m_Framebuffer->GetSpecification();
+		ImGui::Image((void*)textureID, ImVec2{ (float)sbc.Width, (float)sbc.Height });
 		ImGui::End();
 
 		ImGui::End();
