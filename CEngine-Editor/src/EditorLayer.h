@@ -1,5 +1,6 @@
 #pragma once
 #include "CEngine.h"
+
 namespace CEngine {
 	class EditorLayer : public CEngine::Layer
 	{
@@ -16,7 +17,7 @@ namespace CEngine {
 		virtual void OnEvent(Event& event) override;
 	private:
 		OrthographicCameraController m_CameraController;
-
+		PerspectiveCameraController m_PerspectiveCameraController;
 		// Temp
 		Ref<CEngine::Texture2D> m_CheckerboardTexture;
 		Ref<CEngine::Framebuffer> m_Framebuffer;

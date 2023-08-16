@@ -10,6 +10,7 @@
 
 #include "CEngine/Renderer/Renderer.h"
 #include "CEngine/Renderer/Renderer2D.h"
+#include "CEngine/Renderer/Renderer3D.h"
 #include "CEngine/Renderer/Shader.h"
 #include "CEngine/Renderer/Buffer.h"
 #include "CEngine/Renderer/VertexArray.h"

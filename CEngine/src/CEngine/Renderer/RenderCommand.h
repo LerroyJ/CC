@@ -10,7 +10,7 @@ namespace CEngine {
 		static void SetClearColor(const glm::vec4& color) { s_RendererAPI->SetClearColor(color); }
 		static void Clear() { s_RendererAPI->Clear(); }
 		static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t count = 0) { s_RendererAPI->DrawIndexed(vertexArray, count); }
-		static void DrawArrays(const Ref<VertexArray>& vertexArray) { s_RendererAPI->DrawArrays(vertexArray); }
+		static void DrawArrays(uint32_t count) { s_RendererAPI->DrawArrays(count); }
 	private:
 		static Scope<RendererAPI> s_RendererAPI;
 	};

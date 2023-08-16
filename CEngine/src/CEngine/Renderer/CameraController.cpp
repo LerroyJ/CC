@@ -71,4 +71,52 @@ namespace CEngine {
 		m_AspectRatio = width / height;
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 	}
+
+	// ----------------------------------------------------------------------------------------------------
+	// PerspectiveCamera
+	// ----------------------------------------------------------------------------------------------------
+
+
+	PerspectiveCameraController::PerspectiveCameraController(float aspectRatio) 
+		: m_AspectRatio(aspectRatio), m_Camera(aspectRatio)
+	{
+		
+	}
+	void PerspectiveCameraController::OnUpdate(Timestep ts)
+	{
+		if (CEngine::Input::IsKeyPressed(CC_KEY_W)) {
+			m_Camera.ProcessKeyboard(PerspectiveCamera::FORWARD, ts);
+		}
+		else if (CEngine::Input::IsKeyPressed(CC_KEY_S)) {
+			m_Camera.ProcessKeyboard(PerspectiveCamera::BACKWARD, ts);
+		}
+
+		if (CEngine::Input::IsKeyPressed(CC_KEY_A)) {
+			m_Camera.ProcessKeyboard(PerspectiveCamera::LEFT, ts);
+		}
+		else if (CEngine::Input::IsKeyPressed(CC_KEY_D)) {
+			m_Camera.ProcessKeyboard(PerspectiveCamera::RIGHT, ts);
+		}
+	}
+	void PerspectiveCameraController::OnEvent(Event& e)
+	{
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(PerspectiveCameraController::OnWindowResized));
+		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_FN(PerspectiveCameraController::OnMouseScrolled));
+	}
+	void PerspectiveCameraController::OnResize(float width, float height)
+	{
+		m_AspectRatio = width / height;
+		m_Camera.SetProjection(m_AspectRatio);
+	}
+	bool PerspectiveCameraController::OnMouseScrolled(MouseScrolledEvent& event)
+	{
+		m_Camera.ProcessMouseScroll(event.GetYOffset());
+		return false;
+	}
+	bool PerspectiveCameraController::OnWindowResized(WindowResizeEvent& event)
+	{
+		OnResize((float)event.GetWidth(), (float)event.GetHeight());
+		return false;
+	}
 }

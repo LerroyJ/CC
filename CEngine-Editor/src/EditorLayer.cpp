@@ -2,13 +2,15 @@
 #include "imgui/imgui.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#define UseRenderer3D 0
 namespace CEngine {
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_QuadColor({ 0.5f,0.4f,0.3f, 1.0f })
+		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_PerspectiveCameraController(1280.0f / 720.0f), m_QuadColor({ 0.5f,0.4f,0.3f, 1.0f })
 	{
-
+#if UseRenderer3D
+		Renderer3D::Init();
+#endif
 	}
-
 	void EditorLayer::OnAttach()
 	{
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
@@ -29,20 +31,34 @@ namespace CEngine {
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			
+#if UseRenderer3D
+			m_PerspectiveCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+#else
 			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+#endif
 		}
 
-
+#if UseRenderer3D
+		m_PerspectiveCameraController.OnUpdate(ts);
+#else
 		m_CameraController.OnUpdate(ts);
+#endif
 
+		
 		m_Framebuffer->Bind();
 		RenderCommand::Clear();
 		RenderCommand::SetClearColor({ 0.1, 0.2, 0.3, 1.0 });
-
+#if UseRenderer3D
+		Renderer3D::BeginScene(m_PerspectiveCameraController.GetCamera());
+		Renderer3D::DrawCube(ts);
+		Renderer3D::EndScene();
+#else
 		Renderer2D::ResetStats();
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
 		Renderer2D::DrawQuad({ 0,0,0 }, { 1,1 }, m_QuadColor);
 		Renderer2D::EndScene();
+#endif
 		m_Framebuffer->Unbind();
 	}
 
@@ -131,7 +147,12 @@ namespace CEngine {
 		ImGui::End();
 	}
 	void EditorLayer::OnEvent(Event& event) {
+		
+#if UseRenderer3D
+		m_PerspectiveCameraController.OnEvent(event);
+#else
 		m_CameraController.OnEvent(event);
+#endif
 	}
 }
 

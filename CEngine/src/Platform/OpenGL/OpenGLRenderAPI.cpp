@@ -28,11 +28,9 @@ namespace CEngine{
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	void OpenGLRenderAPI::DrawArrays(const Ref<VertexArray>& vertexArray)
+	void OpenGLRenderAPI::DrawArrays(uint32_t count)
 	{
 		// TODO
-		//glDrawArrays(GL_TRIANGLES, 0, vertexArray->GetIndexBuffer()->GetCount());
-
-		CC_ASSERT(false, "TODO: DrawArrays");
+		glDrawArrays(GL_TRIANGLES, 0, count);
 	}
 }

@@ -143,6 +143,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\CEngine\Renderer\Renderer3D.h" />
     <ClInclude Include="src\CEngine.h" />
     <ClInclude Include="src\CEngine\Core\Application.h" />
     <ClInclude Include="src\CEngine\Core\Core.h" />
@@ -602,6 +603,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CEngine\Renderer\Renderer3D.cpp" />
     <ClCompile Include="src\CEngine\Core\Application.cpp" />
     <ClCompile Include="src\CEngine\Core\Layer.cpp" />
     <ClCompile Include="src\CEngine\Core\LayerStack.cpp" />

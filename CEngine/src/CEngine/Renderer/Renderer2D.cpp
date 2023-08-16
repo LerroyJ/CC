@@ -13,7 +13,7 @@ namespace CEngine {
 		float TexIndex;
 	};
 
-	struct BatchRenderData {
+	struct Renderer2DData {
 		Ref<Shader> flatShader;
 		// -----
 		// indexBuffer only set once.
@@ -42,7 +42,7 @@ namespace CEngine {
 
 		Renderer2D::Statistics Stats;
 	};
-	static BatchRenderData s_Data;
+	static Renderer2DData s_Data;
 
 	void Renderer2D::Init()
 	{
@@ -126,7 +126,7 @@ namespace CEngine {
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		if (s_Data.QuadIndexCount >= BatchRenderData::MaxIndices)
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
 			FlushAndReset();
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
@@ -152,7 +152,7 @@ namespace CEngine {
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& tiniColor) {
 		
-		if (s_Data.QuadIndexCount >= BatchRenderData::MaxIndices)
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
 			FlushAndReset();
 
 		float textureIndex = 0.0f;
@@ -192,7 +192,7 @@ namespace CEngine {
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 	{
-		if (s_Data.QuadIndexCount >= BatchRenderData::MaxIndices)
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
 			FlushAndReset();
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
@@ -219,7 +219,7 @@ namespace CEngine {
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, const glm::vec4& tiniColor)
 	{
-		if (s_Data.QuadIndexCount >= BatchRenderData::MaxIndices)
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
 			FlushAndReset();
 
 		float textureIndex = 0.0f;

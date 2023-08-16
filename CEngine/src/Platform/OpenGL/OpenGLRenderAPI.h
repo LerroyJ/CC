@@ -8,6 +8,6 @@ namespace CEngine {
 		virtual void SetClearColor(const glm::vec4& color) override;
 		virtual void Clear() override;
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount) override;
-		virtual void DrawArrays(const Ref<VertexArray>& vertexArray) override;
+		virtual void DrawArrays(uint32_t count) override;
 	};
 }
