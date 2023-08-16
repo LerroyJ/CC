@@ -19,7 +19,7 @@ namespace CEngine {
 		virtual unsigned int GetHeight() const override { return m_Data.Height; }
 
 		// Window attributes
-		inline virtual void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+		virtual void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		virtual void SetVSync(bool enabled) override;
 		virtual void SetTitle(const std::string& title) override;
 		virtual bool IsVSync() const override;

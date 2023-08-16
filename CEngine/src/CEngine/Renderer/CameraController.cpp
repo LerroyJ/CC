@@ -10,28 +10,28 @@ namespace CEngine {
     }
     void OrthographicCameraController::OnUpdate(Timestep ts)
     {
-		if (CEngine::Input::IsKeyPressed(CC_KEY_A)) {
+		if (CEngine::Input::IsKeyPressed(KeyCode::A)) {
 			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
-		else if (CEngine::Input::IsKeyPressed(CC_KEY_D)) {
+		else if (CEngine::Input::IsKeyPressed(KeyCode::D)) {
 			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
-		if (CEngine::Input::IsKeyPressed(CC_KEY_W)) {
+		if (CEngine::Input::IsKeyPressed(KeyCode::W)) {
 			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
-		else if (CEngine::Input::IsKeyPressed(CC_KEY_S)) {
+		else if (CEngine::Input::IsKeyPressed(KeyCode::S)) {
 			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
 		if (m_Rotation)
 		{
-			if (CEngine::Input::IsKeyPressed(CC_KEY_Q)) {
+			if (CEngine::Input::IsKeyPressed(KeyCode::Q)) {
 				m_CameraRotation += m_CameraRotationSpeed * ts.GetSecond();
 			}
-			else if (CEngine::Input::IsKeyPressed(CC_KEY_E)) {
+			else if (CEngine::Input::IsKeyPressed(KeyCode::E)) {
 				m_CameraRotation -= m_CameraRotationSpeed * ts.GetSecond();
 			}
 
@@ -84,17 +84,17 @@ namespace CEngine {
 	}
 	void PerspectiveCameraController::OnUpdate(Timestep ts)
 	{
-		if (CEngine::Input::IsKeyPressed(CC_KEY_W)) {
+		if (CEngine::Input::IsKeyPressed(KeyCode::W)) {
 			m_Camera.ProcessKeyboard(PerspectiveCamera::FORWARD, ts);
 		}
-		else if (CEngine::Input::IsKeyPressed(CC_KEY_S)) {
+		else if (CEngine::Input::IsKeyPressed(KeyCode::S)) {
 			m_Camera.ProcessKeyboard(PerspectiveCamera::BACKWARD, ts);
 		}
 
-		if (CEngine::Input::IsKeyPressed(CC_KEY_A)) {
+		if (CEngine::Input::IsKeyPressed(KeyCode::A)) {
 			m_Camera.ProcessKeyboard(PerspectiveCamera::LEFT, ts);
 		}
-		else if (CEngine::Input::IsKeyPressed(CC_KEY_D)) {
+		else if (CEngine::Input::IsKeyPressed(KeyCode::D)) {
 			m_Camera.ProcessKeyboard(PerspectiveCamera::RIGHT, ts);
 		}
 	}

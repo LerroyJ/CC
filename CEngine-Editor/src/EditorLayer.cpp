@@ -31,7 +31,7 @@ namespace CEngine {
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			
+
 #if UseRenderer3D
 			m_PerspectiveCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 #else
@@ -39,13 +39,15 @@ namespace CEngine {
 #endif
 		}
 
+		if (m_ViewportFocused) {
 #if UseRenderer3D
-		m_PerspectiveCameraController.OnUpdate(ts);
+			m_PerspectiveCameraController.OnUpdate(ts);
 #else
-		m_CameraController.OnUpdate(ts);
+			m_CameraController.OnUpdate(ts);
 #endif
+		}
 
-		
+
 		m_Framebuffer->Bind();
 		RenderCommand::Clear();
 		RenderCommand::SetClearColor({ 0.1, 0.2, 0.3, 1.0 });
@@ -138,6 +140,9 @@ namespace CEngine {
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportHovered);
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
@@ -147,7 +152,7 @@ namespace CEngine {
 		ImGui::End();
 	}
 	void EditorLayer::OnEvent(Event& event) {
-		
+
 #if UseRenderer3D
 		m_PerspectiveCameraController.OnEvent(event);
 #else
