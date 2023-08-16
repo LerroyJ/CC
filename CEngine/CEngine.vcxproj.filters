@@ -114,6 +114,9 @@
     <ClInclude Include="src\CEngine\Renderer\CameraController.h">
       <Filter>src\CEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\CEngine\Renderer\Framebuffer.h">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\GraphicsContext.h">
       <Filter>src\CEngine\Renderer</Filter>
     </ClInclude>
@@ -145,6 +148,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRenderAPI.h">
@@ -1419,8 +1425,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\Renderer\Framebuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CEngine\Core\Application.cpp">
@@ -1450,6 +1454,9 @@
     <ClCompile Include="src\CEngine\Renderer\CameraController.cpp">
       <Filter>src\CEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\CEngine\Renderer\Framebuffer.cpp">
+      <Filter>src\CEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\CEngine\Renderer\RenderCommand.cpp">
       <Filter>src\CEngine\Renderer</Filter>
     </ClCompile>
@@ -1477,6 +1484,9 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRenderAPI.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1501,7 +1511,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\CEngine\Renderer\Framebuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
   </ItemGroup>
 </Project>

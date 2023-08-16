@@ -19,9 +19,11 @@ IncludeDir["ImGui"] = "CEngine/vendor/imgui"
 IncludeDir["glm"] = "CEngine/vendor/glm"
 IncludeDir["stb_image"] = "CEngine/vendor/stb_image"
 
-include "CEngine/vendor/GLFW"
-include "CEngine/vendor/Glad"
-include "CEngine/vendor/imgui"
+group "Dependencies"
+	include "CEngine/vendor/GLFW"
+	include "CEngine/vendor/Glad"
+	include "CEngine/vendor/imgui"
+group ""
 
 project "CEngine"
 	location "CEngine"
@@ -94,7 +96,54 @@ project "CEngine"
 		runtime "Release"
 		optimize "on"
 
-project "Sandbox"
+project "CEngine-Editor"
+	location "CEngine-Editor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++latest"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"CEngine/vendor/spdlog/include",
+		"CEngine/src",
+		"CEngine/vendor",
+		"%{IncludeDir.glm}"
+	}
+
+	links
+	{
+		"CEngine"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		defines "CC_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "CC_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Dist"
+		defines "CC_DIST"
+		runtime "Release"
+		optimize "on"
+
+		project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
