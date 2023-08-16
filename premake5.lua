@@ -1,6 +1,6 @@
 workspace "CEngine"
 	architecture "x64"
-	startproject "Sandbox"
+	startproject "CEngine-Dditor"
 
 	configurations
 	{

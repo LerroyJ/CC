@@ -20,7 +20,7 @@ namespace CEngine {
 		// Temp
 		Ref<CEngine::Texture2D> m_CheckerboardTexture;
 		Ref<CEngine::Framebuffer> m_Framebuffer;
-
+		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 		glm::vec4 m_QuadColor;
 	};
 }
