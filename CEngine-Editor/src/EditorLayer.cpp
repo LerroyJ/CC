@@ -2,6 +2,7 @@
 #include "imgui/imgui.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "entt.hpp"
 #define UseRenderer3D 0
 namespace CEngine {
 	EditorLayer::EditorLayer()
