@@ -17,14 +17,18 @@ namespace CEngine {
 		virtual void OnEvent(Event& event) override;
 	private:
 		OrthographicCameraController m_CameraController;
-		PerspectiveCameraController m_PerspectiveCameraController;
 		// Temp
 		Ref<CEngine::Texture2D> m_CheckerboardTexture;
 		Ref<CEngine::Framebuffer> m_Framebuffer;
-		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
-		glm::vec4 m_QuadColor;
-
+		glm::vec2 m_ViewportSize{ 0.0f, 0.0f };
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
+
+		Ref<Scene> m_Scene;
+
+		Entity m_Entity;
+		glm::vec3 m_QuadPos{0};
+		glm::vec3 m_QuadSize{1};
+		glm::vec3 m_QuadRotation{0};
 	};
 }
 

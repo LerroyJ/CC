@@ -8,6 +8,10 @@
 
 #include "CEngine/Core/Timestep.h"
 
+#include "CEngine/Scene/Scene.h"
+#include "CEngine/Scene/Component.h"
+#include "CEngine/Scene/Entity.h"
+
 #include "CEngine/Renderer/Renderer.h"
 #include "CEngine/Renderer/Renderer2D.h"
 #include "CEngine/Renderer/Renderer3D.h"

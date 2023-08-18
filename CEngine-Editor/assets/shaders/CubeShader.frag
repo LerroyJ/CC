@@ -3,6 +3,8 @@ out vec4 FragColor;
 
 in vec2 v_TexCoords;
 
+uniform vec4 u_Color;
+
 void main(){
-	FragColor = vec4(v_TexCoords, 0, 1);
+	FragColor = u_Color;
 }

@@ -15,16 +15,15 @@ namespace CEngine {
 		RenderCommand::SetViewport(0, 0, width, height);
 	}
 
-	Scope<Renderer::SceneData> Renderer::m_SceneData = CreateScope<Renderer::SceneData>();
 	
-	void Renderer::BeginScene(OrthographicCamera& camera)
+	void Renderer::BeginScene()
 	{
-		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+		
 	}
 	void Renderer::EndScene()
 	{
 	}
-	void Renderer::Submit(const Ref<Shader> shader, const Ref<VertexArray>& vertexArray, const glm::mat4& model)
+	void Renderer::Submit()
 	{
 	}
 }

@@ -18,6 +18,7 @@ IncludeDir["Glad"] = "CEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "CEngine/vendor/imgui"
 IncludeDir["glm"] = "CEngine/vendor/glm"
 IncludeDir["stb_image"] = "CEngine/vendor/stb_image"
+IncludeDir["entt"] = "CEngine/vendor/entt/include"
 
 group "Dependencies"
 	include "CEngine/vendor/GLFW"
@@ -61,7 +62,8 @@ project "CEngine"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links 
@@ -117,7 +119,8 @@ project "CEngine-Editor"
 		"CEngine/vendor/spdlog/include",
 		"CEngine/src",
 		"CEngine/vendor",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links
@@ -164,7 +167,8 @@ project "CEngine-Editor"
 		"CEngine/vendor/spdlog/include",
 		"CEngine/src",
 		"CEngine/vendor",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links

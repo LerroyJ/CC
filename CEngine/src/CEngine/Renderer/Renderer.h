@@ -1,7 +1,5 @@
 #pragma once
 #include "RenderCommand.h"
-#include "Camera.h"
-#include "Shader.h"
 namespace CEngine {
 	class Renderer {
 	public:
@@ -9,17 +7,13 @@ namespace CEngine {
 
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
-		static void BeginScene(OrthographicCamera& camera);
+		static void BeginScene();
 
 		static void EndScene();
 
-		static void Submit(const Ref<Shader> shader, const Ref<VertexArray>& vertexArray, const glm::mat4& model = glm::mat4(1));
+		static void Submit();
 
 		static RendererAPI::API GetAPI(){ return RendererAPI::GetAPI(); }
 	private:
-		struct SceneData {
-			glm::mat4 ViewProjectionMatrix;
-		};
-		static Scope<SceneData> m_SceneData;
 	};
 }

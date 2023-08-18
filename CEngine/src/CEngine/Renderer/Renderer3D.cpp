@@ -87,4 +87,9 @@ namespace CEngine {
         glm::mat4 model = glm::rotate(glm::mat4(1), glm::radians(rotation), glm::vec3(1, 1, 1));
         s_Data.shader->setMat4("u_Model", model);
 	}
+    void Renderer3D::DrawQuad(glm::mat4& transorm, glm::vec4& color)
+    {
+        s_Data.shader->setMat4("u_Model", transorm);
+        s_Data.shader->setVec4("u_Color", color);
+    }
 }

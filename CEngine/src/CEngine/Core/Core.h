@@ -41,7 +41,6 @@
 	#error "Unknown platform!"
 #endif // End of platform detection
 
-
 // DLL support
 #ifdef CC_PLATFORM_WINDOWS
 	#if CC_DYNAMIC_LINK

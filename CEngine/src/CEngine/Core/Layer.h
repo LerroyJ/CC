@@ -3,7 +3,7 @@
 #include "CEngine/Events/Event.h"
 #include "CEngine/Core/Timestep.h"
 namespace CEngine {
-	class CC_API Layer {
+	class Layer {
 	public:
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer();

@@ -2,15 +2,11 @@
 #include "imgui/imgui.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
-#include "entt.hpp"
 #define UseRenderer3D 0
 namespace CEngine {
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_PerspectiveCameraController(1280.0f / 720.0f), m_QuadColor({ 0.5f,0.4f,0.3f, 1.0f })
+		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f)
 	{
-#if UseRenderer3D
-		Renderer3D::Init();
-#endif
 	}
 	void EditorLayer::OnAttach()
 	{
@@ -20,6 +16,10 @@ namespace CEngine {
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
+
+		m_Scene = CreateRef<Scene>();
+		m_Entity = m_Scene->CreateEntity("Quad");
+		m_Entity.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.5f, 0.31f, 1.0f });
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -32,36 +32,20 @@ namespace CEngine {
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-
-#if UseRenderer3D
-			m_PerspectiveCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
-#else
 			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
-#endif
 		}
 
 		if (m_ViewportFocused) {
-#if UseRenderer3D
-			m_PerspectiveCameraController.OnUpdate(ts);
-#else
 			m_CameraController.OnUpdate(ts);
-#endif
 		}
-
 
 		m_Framebuffer->Bind();
 		RenderCommand::Clear();
 		RenderCommand::SetClearColor({ 0.1, 0.2, 0.3, 1.0 });
-#if UseRenderer3D
-		Renderer3D::BeginScene(m_PerspectiveCameraController.GetCamera());
-		Renderer3D::DrawCube(ts);
-		Renderer3D::EndScene();
-#else
 		Renderer2D::ResetStats();
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
-		Renderer2D::DrawQuad({ 0,0,0 }, { 1,1 }, m_QuadColor);
+		m_Scene->OnUpdate(ts);
 		Renderer2D::EndScene();
-#endif
 		m_Framebuffer->Unbind();
 	}
 
@@ -135,7 +119,26 @@ namespace CEngine {
 		ImGui::Text("Quads: %d", stats.QuadCount);
 		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_QuadColor));
+		if (m_Entity)
+		{
+			ImGui::Separator();
+			auto& tag = m_Entity.GetComponent<TagComponent>().Tag;
+			ImGui::Text("%s", tag.c_str());
+
+			auto& squareColor = m_Entity.GetComponent<SpriteRendererComponent>().Color;
+			ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+
+			glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_QuadPos)
+				* glm::rotate(glm::mat4(1), glm::radians(m_QuadRotation.x), { 1.0f, 0.0f, 0.0f })
+				* glm::rotate(glm::mat4(1), glm::radians(m_QuadRotation.y), { 0.0f, 1.0f, 0.0f })
+				* glm::rotate(glm::mat4(1), glm::radians(m_QuadRotation.z), { 0.0f, 0.0f, 1.0f })
+				* glm::scale(glm::mat4(1), { m_QuadSize.x,m_QuadSize.y, 1.0f });
+			m_Entity.GetComponent<TransformComponent>().Transform = transform;
+			ImGui::DragFloat2("Square Pos", glm::value_ptr(m_QuadPos), 0.03f);
+			ImGui::DragFloat2("Square Size", glm::value_ptr(m_QuadSize), 0.03f);
+			ImGui::DragFloat3("Square Rotation", glm::value_ptr(m_QuadRotation));
+			ImGui::Separator();
+		}
 
 		ImGui::End();
 
@@ -153,12 +156,7 @@ namespace CEngine {
 		ImGui::End();
 	}
 	void EditorLayer::OnEvent(Event& event) {
-
-#if UseRenderer3D
-		m_PerspectiveCameraController.OnEvent(event);
-#else
 		m_CameraController.OnEvent(event);
-#endif
 	}
 }
 
