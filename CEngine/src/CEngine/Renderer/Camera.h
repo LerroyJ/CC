@@ -27,6 +27,7 @@ namespace CEngine {
 		glm::vec3 m_Position = { 0.0,0.0,0.0 };
 		float m_Rotation = 0.0f;
 	};
+
 	class PerspectiveCamera {
 	public:
 		enum Camera_Movement {
@@ -72,5 +73,13 @@ namespace CEngine {
 		float Near;
 		float Far;
 		float AspectRatio;
+	};
+
+	class Camera {
+	public:
+		Camera(const glm::mat4& projection) : m_Projection(projection) {}
+		const glm::mat4& GetProjection() const { return m_Projection; }
+	private:
+		glm::mat4 m_Projection;
 	};
 }

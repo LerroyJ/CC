@@ -20,6 +20,12 @@ namespace CEngine {
 		m_Scene = CreateRef<Scene>();
 		m_Entity = m_Scene->CreateEntity("Quad");
 		m_Entity.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.5f, 0.31f, 1.0f });
+
+		m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
+		m_CameraEntity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		m_SecondCamera = m_Scene->CreateEntity("Clip-Space Entity");
+		auto& cc = m_SecondCamera.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+		cc.Primary = false;
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -39,13 +45,11 @@ namespace CEngine {
 			m_CameraController.OnUpdate(ts);
 		}
 
+		Renderer2D::ResetStats();
 		m_Framebuffer->Bind();
 		RenderCommand::Clear();
 		RenderCommand::SetClearColor({ 0.1, 0.2, 0.3, 1.0 });
-		Renderer2D::ResetStats();
-		Renderer2D::BeginScene(m_CameraController.GetCamera());
 		m_Scene->OnUpdate(ts);
-		Renderer2D::EndScene();
 		m_Framebuffer->Unbind();
 	}
 
@@ -127,17 +131,15 @@ namespace CEngine {
 
 			auto& squareColor = m_Entity.GetComponent<SpriteRendererComponent>().Color;
 			ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-
-			glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_QuadPos)
-				* glm::rotate(glm::mat4(1), glm::radians(m_QuadRotation.x), { 1.0f, 0.0f, 0.0f })
-				* glm::rotate(glm::mat4(1), glm::radians(m_QuadRotation.y), { 0.0f, 1.0f, 0.0f })
-				* glm::rotate(glm::mat4(1), glm::radians(m_QuadRotation.z), { 0.0f, 0.0f, 1.0f })
-				* glm::scale(glm::mat4(1), { m_QuadSize.x,m_QuadSize.y, 1.0f });
-			m_Entity.GetComponent<TransformComponent>().Transform = transform;
-			ImGui::DragFloat2("Square Pos", glm::value_ptr(m_QuadPos), 0.03f);
-			ImGui::DragFloat2("Square Size", glm::value_ptr(m_QuadSize), 0.03f);
-			ImGui::DragFloat3("Square Rotation", glm::value_ptr(m_QuadRotation));
 			ImGui::Separator();
+		}
+
+		ImGui::DragFloat3("Camera Transform",
+			glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[0]));
+		if (ImGui::Checkbox("Camera A", &m_PrimaryCamera))
+		{
+			m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
+			m_SecondCamera.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
 		}
 
 		ImGui::End();

@@ -51,6 +51,7 @@ namespace CEngine {
 		s_Data.whiteTexture->SetData(sizeof(uint32_t), &whiteTextureDatat);
 		s_Data.vertexArray = VertexArray::Create();
 		s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices];
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
 		s_Data.vertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
 		s_Data.vertexBuffer->SetLayout({
 			{"Position", ShaderDataType::Float3},
@@ -96,6 +97,16 @@ namespace CEngine {
 	}
 	void Renderer2D::ShutDown()
 	{
+	}
+	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+	{
+		glm::mat4 viewProj = camera.GetProjection() * glm::inverse(transform);
+		s_Data.flatShader->setMat4("u_ViewProjectionMatrix", viewProj);
+
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+		s_Data.QuadIndexCount = 0;
+
+		s_Data.TextureSlotIndex = 1;
 	}
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{

@@ -29,6 +29,10 @@ namespace CEngine {
 		glm::vec3 m_QuadPos{0};
 		glm::vec3 m_QuadSize{1};
 		glm::vec3 m_QuadRotation{0};
+
+		Entity m_CameraEntity;
+		Entity m_SecondCamera;
+		bool m_PrimaryCamera = true;
 	};
 }
 
