@@ -1,5 +1,6 @@
 #pragma once
 #include "CEngine.h"
+#include "Panels/SceneHierarchyPanel.h"
 
 namespace CEngine {
 	class EditorLayer : public CEngine::Layer
@@ -33,6 +34,8 @@ namespace CEngine {
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
 		bool m_PrimaryCamera = true;
+
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};
 }
 

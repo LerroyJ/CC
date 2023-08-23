@@ -1,6 +1,7 @@
 #pragma once
 #include "glm/glm.hpp"
-#include "CEngine/Renderer/Camera.h"
+#include "SceneCamera.h"
+#include "ScriptableEntity.h"
 namespace CEngine {
 	struct TagComponent
 	{
@@ -32,11 +33,23 @@ namespace CEngine {
 	};
 
 	struct CameraComponent {
-		Camera Camera;
+		SceneCamera Camera;
 		bool Primary = true; // TODO: think about moving to Scene
-
-		CameraComponent() = default;
+		bool FixedAspectRatio = false;
 		CameraComponent(const CameraComponent&) = default;
-		CameraComponent(const glm::mat4& projection) : Camera(projection) {}
+		CameraComponent() = default;
+	};
+
+	struct NativeScriptComponent {
+		ScriptableEntity* Instance = nullptr;
+
+		ScriptableEntity* (*InstantiateScript)();
+		void (*DestroyScript)(NativeScriptComponent*);
+
+		template<typename T>
+		void Bind() {
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](NativeScriptComponent* nsc) {delete nsc->Instance; nsc->Instance = nullptr; };
+		}
 	};
 }

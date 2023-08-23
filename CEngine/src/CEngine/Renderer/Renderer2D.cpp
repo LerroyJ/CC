@@ -100,7 +100,7 @@ namespace CEngine {
 	}
 	void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
 	{
-		glm::mat4 viewProj = camera.GetProjection() * glm::inverse(transform);
+		glm::mat4 viewProj = camera.GetCamerProjection() * glm::inverse(transform);
 		s_Data.flatShader->setMat4("u_ViewProjectionMatrix", viewProj);
 
 		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;

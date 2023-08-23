@@ -22,10 +22,43 @@ namespace CEngine {
 		m_Entity.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.5f, 0.31f, 1.0f });
 
 		m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
-		m_CameraEntity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+		//glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f)
+		m_CameraEntity.AddComponent<CameraComponent>();
+		//glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f)
 		m_SecondCamera = m_Scene->CreateEntity("Clip-Space Entity");
-		auto& cc = m_SecondCamera.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
 		cc.Primary = false;
+		cc.Camera.SetOrthographicSize(2.0f);
+
+		class CameraController : public ScriptableEntity {
+		public:
+			virtual void OnCreate() override{
+				auto& transform = GetComponent<TransformComponent>().Transform;
+				transform[3][0] = rand() % 10 - 5.0f;
+			}
+
+			virtual void OnDestroy() override {
+				
+			}
+
+			virtual void OnUpdate(Timestep ts) override {
+				auto& transform = GetComponent<TransformComponent>().Transform;
+				float speed = 5.0f;
+
+				if (Input::IsKeyPressed(KeyCode::A))
+					transform[3][0] -= speed * ts;
+				if (Input::IsKeyPressed(KeyCode::D))
+					transform[3][0] += speed * ts;
+				if (Input::IsKeyPressed(KeyCode::W))
+					transform[3][1] += speed * ts;
+				if (Input::IsKeyPressed(KeyCode::S))
+					transform[3][1] -= speed * ts;
+			}
+		};
+
+		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+		m_SceneHierarchyPanel.SetContext(m_Scene);
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -38,7 +71,9 @@ namespace CEngine {
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			//m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			//m_CameraEntity.GetComponent<CameraComponent>().Camera.set_viewPort({ m_ViewportSize.x, m_ViewportSize.y });
+			m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
 		if (m_ViewportFocused) {
@@ -115,6 +150,8 @@ namespace CEngine {
 			ImGui::EndMenuBar();
 		}
 
+		m_SceneHierarchyPanel.OnImGuiRender();
+
 		ImGui::Begin("Settings");
 
 		auto stats = Renderer2D::GetStats();
@@ -135,11 +172,18 @@ namespace CEngine {
 		}
 
 		ImGui::DragFloat3("Camera Transform",
-			glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[0]));
+			glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]));
 		if (ImGui::Checkbox("Camera A", &m_PrimaryCamera))
 		{
 			m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
 			m_SecondCamera.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
+		}
+
+		{
+			auto& camera = m_CameraEntity.GetComponent<CameraComponent>().Camera;
+			float orthoSize = camera.GetOrthographicSize();
+			if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
+				camera.SetOrthographicSize(orthoSize);
 		}
 
 		ImGui::End();

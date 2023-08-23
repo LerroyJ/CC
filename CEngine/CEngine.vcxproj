@@ -177,6 +177,8 @@
     <ClInclude Include="src\CEngine\Scene\Component.h" />
     <ClInclude Include="src\CEngine\Scene\Entity.h" />
     <ClInclude Include="src\CEngine\Scene\Scene.h" />
+    <ClInclude Include="src\CEngine\Scene\SceneCamera.h" />
+    <ClInclude Include="src\CEngine\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
@@ -625,6 +627,7 @@
     <ClCompile Include="src\CEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\CEngine\Scene\Entity.cpp" />
     <ClCompile Include="src\CEngine\Scene\Scene.cpp" />
+    <ClCompile Include="src\CEngine\Scene\SceneCamera.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />

@@ -1428,6 +1428,8 @@
     <ClInclude Include="src\CEngine\Scene\Scene.h" />
     <ClInclude Include="src\CEngine\Scene\Component.h" />
     <ClInclude Include="src\CEngine\Scene\Entity.h" />
+    <ClInclude Include="src\CEngine\Scene\SceneCamera.h" />
+    <ClInclude Include="src\CEngine\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CEngine\Core\Application.cpp">
@@ -1519,5 +1521,6 @@
     </ClCompile>
     <ClCompile Include="src\CEngine\Scene\Scene.cpp" />
     <ClCompile Include="src\CEngine\Scene\Entity.cpp" />
+    <ClCompile Include="src\CEngine\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

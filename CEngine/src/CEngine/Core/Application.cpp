@@ -65,6 +65,7 @@ namespace CEngine {
 	}
 
 	bool Application::OnWindowResize(WindowResizeEvent& event) {
+		CC_CORE_TRACE("{0}", event);
 		if (event.GetWidth() == 0 || event.GetHeight() == 0) {
 			m_Minimized = true;
 			return false;

@@ -32,8 +32,8 @@ namespace CEngine {
 
 	PerspectiveCamera::PerspectiveCamera(float aspectRatio, glm::vec3 position, glm::vec3 up, float yaw, float pitch)
 		: Position(position), WorldUp(up), Yaw(yaw), Pitch(pitch),
-			Near(0.1f), Far(100.0f), Zoom(45.0f), AspectRatio(aspectRatio),
-			MouseSensitivity(0.1f), MovementSpeed(2.5f)
+		Near(0.1f), Far(100.0f), Zoom(45.0f), AspectRatio(aspectRatio),
+		MouseSensitivity(0.1f), MovementSpeed(2.5f)
 	{
 		UpdateCameraVectors();
 		CalculateMatrix(aspectRatio);

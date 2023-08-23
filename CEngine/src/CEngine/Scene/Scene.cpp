@@ -21,23 +21,52 @@ namespace CEngine {
 		return entity;
 	}
 
+	void Scene::OnViewportResize(uint32_t width, uint32_t height)
+	{
+		m_ViewportWidth = width;
+		m_ViewportHeight = height;
+		auto view = m_Registry.view<CameraComponent>();
+		for(auto entity : view)
+		{
+			auto& camera = view.get<CameraComponent>(entity);
+			if (!camera.FixedAspectRatio) {
+				camera.Camera.SetViewportSize(width, height);
+			}
+		}
+	}
+
 	void Scene::OnUpdate(Timestep ts)
 	{
+		
+		{
+			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc){
+				if (!nsc.Instance) {
+					nsc.Instance = nsc.InstantiateScript();
+					nsc.Instance->m_Entity = Entity{ entity, this };
+					nsc.Instance->OnCreate();
+				}
+				nsc.Instance->OnUpdate(ts);
+			});
+			
+		}
+
 		Camera* mainCamera = nullptr;
 		glm::mat4* cameraTransform = nullptr;
 		{
-			auto group = m_Registry.view<TransformComponent, CameraComponent>();
-			for (auto entity : group)
+			auto view = m_Registry.view<TransformComponent, CameraComponent>();
+			for (auto entity : view)
 			{
-				auto [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
+				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 				if (camera.Primary) {
 					mainCamera = &camera.Camera;
 					cameraTransform = &transform.Transform;
+					break;
 				}
 			}
 		}
 		if (mainCamera) {
 			Renderer2D::BeginScene(*mainCamera , *cameraTransform);
+			// 所有拥有SpriteRendererComponent的Entity都画出来
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group) {
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
@@ -45,5 +74,6 @@ namespace CEngine {
 			}
 			Renderer2D::EndScene();
 		}
+		
 	}
 }
