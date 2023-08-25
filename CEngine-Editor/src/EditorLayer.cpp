@@ -2,10 +2,9 @@
 #include "imgui/imgui.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
-#define UseRenderer3D 0
 namespace CEngine {
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f)
+		: Layer("EditorLayer")
 	{
 	}
 	void EditorLayer::OnAttach()
@@ -18,41 +17,46 @@ namespace CEngine {
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
 		m_Scene = CreateRef<Scene>();
-		m_Entity = m_Scene->CreateEntity("Quad");
-		m_Entity.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.5f, 0.31f, 1.0f });
+		auto coralQuad = m_Scene->CreateEntity("coralQuad");
+		coralQuad.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.5f, 0.31f, 1.0f });
+
+		auto greenQuad = m_Scene->CreateEntity("greenQuad");
+		greenQuad.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+		greenQuad.GetComponent<TransformComponent>().Translation += glm::vec3{ 1.5f,0.0f,-5.0f };
 
 		m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
-		//glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f)
 		m_CameraEntity.AddComponent<CameraComponent>();
-		//glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f)
+		m_CameraEntity.GetComponent<TransformComponent>().Translation += glm::vec3{ 0.0f,0.0f,4.0f };
+
 		m_SecondCamera = m_Scene->CreateEntity("Clip-Space Entity");
+		m_SecondCamera.GetComponent<TransformComponent>().Translation += glm::vec3{ 0.0f,0.0f,4.0f };
 		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
 		cc.Primary = false;
 		cc.Camera.SetOrthographicSize(2.0f);
 
 		class CameraController : public ScriptableEntity {
 		public:
-			virtual void OnCreate() override{
-				auto& transform = GetComponent<TransformComponent>().Transform;
-				transform[3][0] = rand() % 10 - 5.0f;
+			virtual void OnCreate() override {
+				//auto& transform = GetComponent<TransformComponent>().Transform;
+				//transform[3][0] = rand() % 10 - 5.0f;
 			}
 
 			virtual void OnDestroy() override {
-				
+
 			}
 
 			virtual void OnUpdate(Timestep ts) override {
-				auto& transform = GetComponent<TransformComponent>().Transform;
+				auto& transform = GetComponent<TransformComponent>().Translation;
 				float speed = 5.0f;
 
 				if (Input::IsKeyPressed(KeyCode::A))
-					transform[3][0] -= speed * ts;
+					transform.x -= speed * ts;
 				if (Input::IsKeyPressed(KeyCode::D))
-					transform[3][0] += speed * ts;
+					transform.x += speed * ts;
 				if (Input::IsKeyPressed(KeyCode::W))
-					transform[3][1] += speed * ts;
+					transform.y += speed * ts;
 				if (Input::IsKeyPressed(KeyCode::S))
-					transform[3][1] -= speed * ts;
+					transform.y -= speed * ts;
 			}
 		};
 
@@ -71,13 +75,7 @@ namespace CEngine {
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			//m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
-			//m_CameraEntity.GetComponent<CameraComponent>().Camera.set_viewPort({ m_ViewportSize.x, m_ViewportSize.y });
 			m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		}
-
-		if (m_ViewportFocused) {
-			m_CameraController.OnUpdate(ts);
 		}
 
 		Renderer2D::ResetStats();
@@ -135,7 +133,6 @@ namespace CEngine {
 			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
-
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
@@ -151,43 +148,17 @@ namespace CEngine {
 		}
 
 		m_SceneHierarchyPanel.OnImGuiRender();
-
-		ImGui::Begin("Settings");
-
-		auto stats = Renderer2D::GetStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-		ImGui::Text("Quads: %d", stats.QuadCount);
-		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-		if (m_Entity)
 		{
-			ImGui::Separator();
-			auto& tag = m_Entity.GetComponent<TagComponent>().Tag;
-			ImGui::Text("%s", tag.c_str());
+			ImGui::Begin("Stats");
 
-			auto& squareColor = m_Entity.GetComponent<SpriteRendererComponent>().Color;
-			ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-			ImGui::Separator();
+			auto stats = Renderer2D::GetStats();
+			ImGui::Text("Renderer2D Stats:");
+			ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+			ImGui::Text("Quads: %d", stats.QuadCount);
+			ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+			ImGui::End();
 		}
-
-		ImGui::DragFloat3("Camera Transform",
-			glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]));
-		if (ImGui::Checkbox("Camera A", &m_PrimaryCamera))
-		{
-			m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
-			m_SecondCamera.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
-		}
-
-		{
-			auto& camera = m_CameraEntity.GetComponent<CameraComponent>().Camera;
-			float orthoSize = camera.GetOrthographicSize();
-			if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
-				camera.SetOrthographicSize(orthoSize);
-		}
-
-		ImGui::End();
-
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
 		m_ViewportFocused = ImGui::IsWindowFocused();
@@ -202,7 +173,6 @@ namespace CEngine {
 		ImGui::End();
 	}
 	void EditorLayer::OnEvent(Event& event) {
-		m_CameraController.OnEvent(event);
 	}
 }
 

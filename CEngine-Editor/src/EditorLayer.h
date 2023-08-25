@@ -17,7 +17,6 @@ namespace CEngine {
 		virtual void OnImGuiRender() override;
 		virtual void OnEvent(Event& event) override;
 	private:
-		OrthographicCameraController m_CameraController;
 		// Temp
 		Ref<CEngine::Texture2D> m_CheckerboardTexture;
 		Ref<CEngine::Framebuffer> m_Framebuffer;
@@ -25,11 +24,6 @@ namespace CEngine {
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 
 		Ref<Scene> m_Scene;
-
-		Entity m_Entity;
-		glm::vec3 m_QuadPos{0};
-		glm::vec3 m_QuadSize{1};
-		glm::vec3 m_QuadRotation{0};
 
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
