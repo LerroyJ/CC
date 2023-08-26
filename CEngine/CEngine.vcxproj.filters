@@ -19,6 +19,9 @@
     <Filter Include="src\CEngine\Renderer">
       <UniqueIdentifier>{5B52952E-47E1-1EF8-F0FF-32F3DC6D2F9E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\CEngine\Scene">
+      <UniqueIdentifier>{F2EF84E7-5E06-837D-A77D-0E9F13D35305}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -146,6 +149,24 @@
     </ClInclude>
     <ClInclude Include="src\CEngine\Renderer\VertexArray.h">
       <Filter>src\CEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Scene\Component.h">
+      <Filter>src\CEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Scene\Entity.h">
+      <Filter>src\CEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Scene\Scene.h">
+      <Filter>src\CEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Scene\SceneCamera.h">
+      <Filter>src\CEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Scene\SceneSerializer.h">
+      <Filter>src\CEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CEngine\Scene\ScriptableEntity.h">
+      <Filter>src\CEngine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1425,11 +1446,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\CEngine\Scene\Scene.h" />
-    <ClInclude Include="src\CEngine\Scene\Component.h" />
-    <ClInclude Include="src\CEngine\Scene\Entity.h" />
-    <ClInclude Include="src\CEngine\Scene\SceneCamera.h" />
-    <ClInclude Include="src\CEngine\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CEngine\Core\Application.cpp">
@@ -1486,6 +1502,18 @@
     <ClCompile Include="src\CEngine\Renderer\VertexArray.cpp">
       <Filter>src\CEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\CEngine\Scene\Entity.cpp">
+      <Filter>src\CEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Scene\Scene.cpp">
+      <Filter>src\CEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Scene\SceneCamera.cpp">
+      <Filter>src\CEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEngine\Scene\SceneSerializer.cpp">
+      <Filter>src\CEngine\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1519,8 +1547,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\CEngine\Scene\Scene.cpp" />
-    <ClCompile Include="src\CEngine\Scene\Entity.cpp" />
-    <ClCompile Include="src\CEngine\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

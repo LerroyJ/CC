@@ -2,6 +2,9 @@
 #include "imgui/imgui.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
+
+#include "CEngine/Scene/SceneSerializer.h"
+
 namespace CEngine {
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer")
@@ -17,6 +20,7 @@ namespace CEngine {
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
 		m_Scene = CreateRef<Scene>();
+#if 0
 		auto coralQuad = m_Scene->CreateEntity("coralQuad");
 		coralQuad.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.5f, 0.31f, 1.0f });
 
@@ -61,7 +65,7 @@ namespace CEngine {
 		};
 
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-
+#endif
 		m_SceneHierarchyPanel.SetContext(m_Scene);
 	}
 	void EditorLayer::OnDetach()
@@ -128,11 +132,17 @@ namespace CEngine {
 
 		// DockSpace
 		ImGuiIO& io = ImGui::GetIO();
+		ImGuiStyle& style = ImGui::GetStyle();
+		float minWinSizeX = style.WindowMinSize.x;
+		style.WindowMinSize.x = 370.0f;
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 		{
 			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
+		style.WindowMinSize.x = minWinSizeX;
+
+
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
@@ -140,7 +150,17 @@ namespace CEngine {
 				// Disabling fullscreen would allow the window to be moved to the front of other windows, 
 				// which we can't undo at the moment without finer window depth/z control.
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
+				if (ImGui::MenuItem("Serialize"))
+				{
+					SceneSerializer serializer(m_Scene);
+					serializer.Serialize("assets/scenes/Example.cc");
+				}
 
+				if (ImGui::MenuItem("Deserialize"))
+				{
+					SceneSerializer serializer(m_Scene);
+					serializer.Deserialize("assets/scenes/Example.cc");
+				}
 				if (ImGui::MenuItem("Exit")) CEngine::Application::Get().Close();
 				ImGui::EndMenu();
 			}

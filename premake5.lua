@@ -19,11 +19,13 @@ IncludeDir["ImGui"] = "CEngine/vendor/imgui"
 IncludeDir["glm"] = "CEngine/vendor/glm"
 IncludeDir["stb_image"] = "CEngine/vendor/stb_image"
 IncludeDir["entt"] = "CEngine/vendor/entt/include"
+IncludeDir["yaml_cpp"] = "CEngine/vendor/yaml-cpp/include"
 
 group "Dependencies"
 	include "CEngine/vendor/GLFW"
 	include "CEngine/vendor/Glad"
 	include "CEngine/vendor/imgui"
+	include "CEngine/vendor/yaml-cpp"
 group ""
 
 project "CEngine"
@@ -63,7 +65,8 @@ project "CEngine"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}"
 	}
 
 	links 
@@ -71,6 +74,7 @@ project "CEngine"
 		"GLFW",
 		"Glad",
 		"ImGui",
+		"yaml-cpp",
 		"opengl32.lib"
 	}
 
@@ -146,7 +150,7 @@ project "CEngine-Editor"
 		runtime "Release"
 		optimize "on"
 
-		project "Sandbox"
+project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
