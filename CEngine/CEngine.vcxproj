@@ -164,6 +164,7 @@
     <ClInclude Include="src\CEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\CEngine\Renderer\Camera.h" />
     <ClInclude Include="src\CEngine\Renderer\CameraController.h" />
+    <ClInclude Include="src\CEngine\Renderer\EditorCamera.h" />
     <ClInclude Include="src\CEngine\Renderer\Framebuffer.h" />
     <ClInclude Include="src\CEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\CEngine\Renderer\RenderCommand.h" />
@@ -621,6 +622,7 @@
     <ClCompile Include="src\CEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Camera.cpp" />
     <ClCompile Include="src\CEngine\Renderer\CameraController.cpp" />
+    <ClCompile Include="src\CEngine\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\CEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\CEngine\Renderer\Renderer.cpp" />

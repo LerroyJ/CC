@@ -117,6 +117,16 @@ namespace CEngine {
 
 		s_Data.TextureSlotIndex = 1;
 	}
+	void Renderer2D::BeginScene(const EditorCamera& camera)
+	{
+		glm::mat4 viewProj = camera.GetViewProjection();
+		s_Data.flatShader->setMat4("u_ViewProjectionMatrix", viewProj);
+
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+		s_Data.QuadIndexCount = 0;
+
+		s_Data.TextureSlotIndex = 1;
+	}
 	void Renderer2D::EndScene()
 	{
 		uint32_t dataSize = (uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase;

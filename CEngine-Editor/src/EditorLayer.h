@@ -2,6 +2,8 @@
 #include "CEngine.h"
 #include "Panels/SceneHierarchyPanel.h"
 
+#include "CEngine/Renderer/EditorCamera.h"
+
 namespace CEngine {
 	class EditorLayer : public CEngine::Layer
 	{
@@ -37,6 +39,7 @@ namespace CEngine {
 		int m_GizmoType = -1;
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		EditorCamera m_EditorCamera;
 	};
 }
 

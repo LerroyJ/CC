@@ -70,6 +70,8 @@ namespace CEngine {
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 #endif
 		NewScene();
+
+		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -77,19 +79,22 @@ namespace CEngine {
 	}
 	void EditorLayer::OnUpdate(Timestep ts)
 	{
+		m_EditorCamera.OnUpdate(ts);
 		if (FramebufferSpecification spec = m_Framebuffer->GetSpecification();
 			m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_EditorCamera.SetViewportSize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
 		Renderer2D::ResetStats();
 		m_Framebuffer->Bind();
 		RenderCommand::Clear();
 		RenderCommand::SetClearColor({ 0.1, 0.2, 0.3, 1.0 });
-		m_Scene->OnUpdate(ts);
+		//m_Scene->OnUpdate(ts);
+		m_Scene->OnUpdateEditor(ts, m_EditorCamera);
 		m_Framebuffer->Unbind();
 	}
 
@@ -198,10 +203,14 @@ namespace CEngine {
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
 			// Camera
+#if 0
 			auto cameraEntity = m_Scene->GetPrimaryCameraEntity();
 			const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
 			const glm::mat4& cameraProjection = camera.GetCamerProjection();
 			glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+#endif
+			glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
+			glm::mat4 cameraProjection = m_EditorCamera.GetCamerProjection();
 
 			// Entity transform
 			auto& tc = selectedEntity.GetComponent<TransformComponent>();
@@ -264,6 +273,7 @@ namespace CEngine {
 	}
 
 	void EditorLayer::OnEvent(Event& event) {
+		m_EditorCamera.OnEvent(event);
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 	}

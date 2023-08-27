@@ -1,6 +1,7 @@
 #pragma once
 #include "entt.hpp"
 #include "CEngine/Core/Timestep.h"
+#include "CEngine/Renderer/EditorCamera.h"
 namespace CEngine{
 	class Entity;
 	class Scene {
@@ -14,6 +15,7 @@ namespace CEngine{
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		void OnUpdate(Timestep ts);
+		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 
 		Entity GetPrimaryCameraEntity();
 	private:
