@@ -4,7 +4,10 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include "CEngine/Scene/SceneSerializer.h"
+#include "CEngine/Utils/PlatformUtils.h"
 
+#include "ImGuizmo/ImGuizmo.h"
+#include "CEngine/Math/Math.h"
 namespace CEngine {
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer")
@@ -19,7 +22,7 @@ namespace CEngine {
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
-		m_Scene = CreateRef<Scene>();
+		
 #if 0
 		auto coralQuad = m_Scene->CreateEntity("coralQuad");
 		coralQuad.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.5f, 0.31f, 1.0f });
@@ -66,7 +69,7 @@ namespace CEngine {
 
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 #endif
-		m_SceneHierarchyPanel.SetContext(m_Scene);
+		NewScene();
 	}
 	void EditorLayer::OnDetach()
 	{
@@ -132,15 +135,11 @@ namespace CEngine {
 
 		// DockSpace
 		ImGuiIO& io = ImGui::GetIO();
-		ImGuiStyle& style = ImGui::GetStyle();
-		float minWinSizeX = style.WindowMinSize.x;
-		style.WindowMinSize.x = 370.0f;
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 		{
 			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
-		style.WindowMinSize.x = minWinSizeX;
 
 
 		if (ImGui::BeginMenuBar())
@@ -150,17 +149,16 @@ namespace CEngine {
 				// Disabling fullscreen would allow the window to be moved to the front of other windows, 
 				// which we can't undo at the moment without finer window depth/z control.
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
-				if (ImGui::MenuItem("Serialize"))
-				{
-					SceneSerializer serializer(m_Scene);
-					serializer.Serialize("assets/scenes/Example.cc");
-				}
+				if (ImGui::MenuItem("New", "Ctrl+N"))
+					NewScene();
 
-				if (ImGui::MenuItem("Deserialize"))
-				{
-					SceneSerializer serializer(m_Scene);
-					serializer.Deserialize("assets/scenes/Example.cc");
+				if (ImGui::MenuItem("Open..", "Ctrl+O")) {
+					OpenScene();
 				}
+				if (ImGui::MenuItem("Save As..", "Ctrl + Shift + S")) {
+					SaveSceneAs();
+				}
+				
 				if (ImGui::MenuItem("Exit")) CEngine::Application::Get().Close();
 				ImGui::EndMenu();
 			}
@@ -183,17 +181,138 @@ namespace CEngine {
 		ImGui::Begin("Viewport");
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
-		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportHovered);
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		
+		// Gizmos
+		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+		if (selectedEntity && m_GizmoType != -1) {
+			ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetDrawlist();
+
+			float windowWidth = (float)ImGui::GetWindowWidth();
+			float windowHeight = (float)ImGui::GetWindowHeight();
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+			// Camera
+			auto cameraEntity = m_Scene->GetPrimaryCameraEntity();
+			const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+			const glm::mat4& cameraProjection = camera.GetCamerProjection();
+			glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+
+			// Entity transform
+			auto& tc = selectedEntity.GetComponent<TransformComponent>();
+			glm::mat4 transform = tc.GetTransform();
+
+			// Snapping
+			bool snap = Input::IsKeyPressed(Key::LeftControl);
+			float snapValue = 0.5f; // Snap to 0.5m for translation/scale
+			// Snap to 45 degrees for rotation
+			if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
+				snapValue = 45.0f;
+
+			float snapValues[3] = { snapValue, snapValue, snapValue };
+
+			ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
+				(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
+				nullptr, snap ? snapValues : nullptr);
+
+			if (ImGuizmo::IsUsing())
+			{
+				glm::vec3 translation, rotation, scale;
+				Math::DecomposeTransform(transform, translation, rotation, scale);
+
+				glm::vec3 deltaRotation = rotation - tc.Rotation;
+				tc.Translation = translation;
+				tc.Rotation += deltaRotation;
+				tc.Scale = scale;
+			}
+		}
+		
+		
+		
 		ImGui::End();
 		ImGui::PopStyleVar();
 		ImGui::End();
 	}
-	void EditorLayer::OnEvent(Event& event) {
+
+	void EditorLayer::NewScene() {
+		m_Scene = CreateRef<Scene>();
+		m_Scene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		m_SceneHierarchyPanel.SetContext(m_Scene);
 	}
+	void EditorLayer::OpenScene() {
+		std::string filepath = FileDialogs::OpenFile("CEngine Scene (*.cc)\0*.cc\0");
+		if (!filepath.empty())
+		{
+			NewScene();
+
+			SceneSerializer serializer(m_Scene);
+			serializer.Deserialize(filepath);
+		}
+	}
+	void EditorLayer::SaveSceneAs() {
+		std::string filepath = FileDialogs::SaveFile("CEngine Scene (*.cc)\0*.cc\0");
+		if (!filepath.empty())
+		{
+			SceneSerializer serializer(m_Scene);
+			serializer.Serialize(filepath);
+		}
+	}
+
+	void EditorLayer::OnEvent(Event& event) {
+		EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+	}
+
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e) {
+		if (e.GetRepeatCount() > 0)
+			return false;
+		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+		switch (e.GetKeyCode())
+		{
+			case Key::N:
+			{
+				if (control)
+					NewScene();
+
+				break;
+			}
+			case Key::O:
+			{
+				if (control)
+					OpenScene();
+
+				break;
+			}
+			case Key::S:
+			{
+				if (control && shift)
+					SaveSceneAs();
+
+				break;
+			}
+
+			// Gizmos
+			case Key::Q:
+				m_GizmoType = -1;
+				break;
+			case Key::W:
+				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				break;
+			case Key::E:
+				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+				break;
+			case Key::R:
+				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+				break;
+		}
+	}
+
 }
 
 

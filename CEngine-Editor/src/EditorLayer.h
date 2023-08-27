@@ -17,6 +17,11 @@ namespace CEngine {
 		virtual void OnImGuiRender() override;
 		virtual void OnEvent(Event& event) override;
 	private:
+		bool OnKeyPressed(KeyPressedEvent& event);
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
+	private:
 		// Temp
 		Ref<CEngine::Texture2D> m_CheckerboardTexture;
 		Ref<CEngine::Framebuffer> m_Framebuffer;
@@ -28,6 +33,8 @@ namespace CEngine {
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
 		bool m_PrimaryCamera = true;
+
+		int m_GizmoType = -1;
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};

@@ -20,6 +20,7 @@ IncludeDir["glm"] = "CEngine/vendor/glm"
 IncludeDir["stb_image"] = "CEngine/vendor/stb_image"
 IncludeDir["entt"] = "CEngine/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "CEngine/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] = "CEngine/vendor/ImGuizmo"
 
 group "Dependencies"
 	include "CEngine/vendor/GLFW"
@@ -49,6 +50,8 @@ project "CEngine"
 		"%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	defines
@@ -66,7 +69,8 @@ project "CEngine"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.yaml_cpp}"
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links 
@@ -77,6 +81,9 @@ project "CEngine"
 		"yaml-cpp",
 		"opengl32.lib"
 	}
+
+	filter "files:%{prj.name}/vendor/ImGuizmo/**.cpp"
+	flags { "NoPCH" }
 
 	filter "system:windows"
 		systemversion "latest"

@@ -61,4 +61,5 @@ namespace CEngine {
 		m_Specification.Height = height;
 		Invalidate();
 	}
+
 }

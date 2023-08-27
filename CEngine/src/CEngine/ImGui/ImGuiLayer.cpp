@@ -8,6 +8,8 @@
 #include "CEngine/Core/keyCodes.h"
 #include "CEngine/Core/Application.h"
 
+#include "ImGuizmo.h"
+
 namespace CEngine {
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
@@ -59,6 +61,7 @@ namespace CEngine {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+		ImGuizmo::BeginFrame();
 	}
 	void ImGuiLayer::End()
 	{
